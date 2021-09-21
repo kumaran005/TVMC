@@ -328,7 +328,7 @@ exports.all_boards = (req, res) => {
     // console.log(req.method);
 
     var page = "";
-    user_details.user_type == "Assistant"
+    user_details.user_type == "Assistant" || user_details.user_type == "Admin"
       ? course == "MBBS"
         ? (page += "mbbs_viewstudent.ejs")
         : course == "MDMS"
@@ -381,7 +381,10 @@ exports.all_boards = (req, res) => {
                     db.query(sql, function (err, data4) {
                       var sql = `SELECT * FROM ems.no_delete`;
                       db.query(sql, function (err, data3) {
-                        if (user_details.user_type == "Assistant") {
+                        if (
+                          user_details.user_type == "Assistant" ||
+                          user_details.user_type == "Admin"
+                        ) {
                           var sql1 = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
                           where (course_title,submitted,active_status,relieved) = ('${course}','Yes','Yes','No') order by student_code`;
                           db.query(sql1, function (err, data) {

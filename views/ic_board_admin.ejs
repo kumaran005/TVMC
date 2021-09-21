@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Medical-Project</title>
+    <title>Admin</title>
     <link rel="icon" type="image/png" href="/assets/img/logo.gif" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -155,34 +155,75 @@
                     <a class="dropdown-item dropdown-toggle" href="#"
                       >Courses</a
                     >
-                    <ul class="dropdown-menu">
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
                       <li>
-                        <a class="dropdown-item" href="/aissc_board">AISSC</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/bsc_board">B.Sc.</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/mbbs_board">MBBS</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/mdms_board">MDMS</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/nursing_board"
-                          >Nursing Diploma</a
+                        <a class="dropdown-item" href="/stipend"
+                          >Stipend Register</a
                         >
                       </li>
-                      <li>
-                        <a class="dropdown-item" href="/para_diploma"
-                          >Paramedical Diploma</a
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#"
+                          >Courses</a
                         >
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('AISSC')"
+                              >AISSC</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('BSC')"
+                              >B.Sc.</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('MBBS')"
+                              >MBBS</a
+                            >
+                          </li>
+
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('MDMS')"
+                              >MDMS</a
+                            >
+                          </li>
+
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('Diploma in Nursing')"
+                              >Nursing Diploma</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('MBBS')"
+                              >Paramedical Diploma</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="javascript:course('MBBS')"
+                              >Paramedical Certificate</a
+                            >
+                          </li>
+                        </ul>
                       </li>
-                      <li>
-                        <a class="dropdown-item" href="/para_certificate"
-                          >Paramedical Certificate</a
-                        >
-                      </li>
+                      <!-- <li><a class="dropdown-item" href="/report">Report</a></li> -->
                     </ul>
                   </li>
                   <li class="dropdown-submenu">
@@ -252,7 +293,7 @@
           document.getElementById("course_submit").click();
         };
       </script>
-      <form action="/mbbs_board" method="post">
+      <form action="/boards" method="post">
         <input type="text" id="course" name="course_title" hidden />
         <input
           type="text"
