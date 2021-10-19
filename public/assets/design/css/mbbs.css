@@ -364,12 +364,17 @@ select {
 #myModal input::-moz-placeholder {
   color: #938989b8 !important;
 }
+.modal h5,
+.modal h3 {
+  margin-bottom: 20px;
+  font-weight: 700;
+}
 #regmbbs label,
 #regmbbs table,
 .form-control[readonly],
 .form-control:disabled,
 .form-control-file:disabled {
-  font-style: italic;
+  /* font-style: italic; */
 }
 .main-footer {
   font-size: 15px;

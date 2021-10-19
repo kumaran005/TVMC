@@ -9,6 +9,8 @@ const express = require("express"),
   user = require("./routes/user"),
   select = require("./routes/select"),
   insert = require("./routes/insert"),
+  initial_insert = require("./routes/initial_insert"),
+  initial_files = require("./routes/insert_files"),
   update = require("./routes/update"),
   delte = require("./routes/delete"),
   relieve = require("./routes/relieve"),
@@ -26,14 +28,14 @@ const mysql = require("mysql");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 let bodyParser = require("body-parser");
-
+var cors = require('cors');
+app.use(cors())
 //Server port
 const pool = mysql.createPool({
-  connectionLimit: 100,
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "ems",
+   host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
 });
 
 setInterval(function () {
@@ -43,6 +45,7 @@ setInterval(function () {
 //const connection;
 var getConnection = function (callback) {
   pool.getConnection(function (err, connection) {
+	if(connection)console.log(connected);
     callback(err, connection);
   });
 };
@@ -117,6 +120,20 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use((req,res,next)=>{
+	res.setHeader('Access-Control-Allow-Origin','https://admin.tvmc.ac.in');
+	res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, OPTIONS');
+	res.setHeader(
+				 'Access-Control-Allow-Headers',
+				 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+	next();
+});
+
+app.options('*',(req,res)=>{
+res.status(200);
+});
+
+
 // all environments
 app.set("port", process.env.PORT || 80);
 app.set("views", __dirname + "/views");
@@ -129,12 +146,7 @@ app.use(express.static("./public"));
 
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-    // cookie: { maxAge: 6000000000 },
-  })
+  session({secret: "keyboard cat"})
 );
 //upload files
 const upload = multer({ storage: multer.memoryStorage() });
@@ -202,7 +214,7 @@ app.post("/select_aissc_student", select.select_aissc);
 app.post("/select_nursing_student", select.select_nursing);
 
 // insert
-app.post("/add_students", upload.any(), insert.insert_cand);
+// app.post("/add_students", upload.any(), insert.insert_cand);
 
 // update
 app.get("/update_student", upload.any(), update.edit_cand);
@@ -241,16 +253,10 @@ app.post("/approval_filter", admin.approve_filter);
 // certificate_download
 
 app.post("/cert_form", (req, res) => {
-  var { cand_id } = req.body;
-  console.log(cand_id);
-  var sql = `select * from ems.certificate_files where (cand_id,certificate_type) = ('${cand_id}','Certificate_Form')`;
-  db.query(sql, (err, data) => {
-    res.send(data);
-  });
-});
-app.post("/admission_commitee_form", (req, res) => {
-  var { cand_id } = req.body;
-  var sql = `select * from ems.certificate_files where (cand_id,certificate_type) = ('${cand_id}','Admission_Commitee_Form')`;
+  var { cand_id, certificate_type } = JSON.parse(req.body.data);
+
+  var sql = `select * from admintv_ems.certificate_files where (cand_id,certificate_type) = ('${cand_id}','${certificate_type}')`;
+  console.log(sql);
   db.query(sql, (err, data) => {
     res.send(data);
   });
@@ -259,7 +265,7 @@ app.post("/admission_commitee_form", (req, res) => {
 // surety_file_mdms
 app.post("/surety_file", (req, res) => {
   var { cand_id } = req.body;
-  var sql = `SELECT * FROM ems.surety_mdms where surety_id = '${cand_id}'`;
+  var sql = `SELECT * FROM admintv_ems.surety_mdms where surety_id = '${cand_id}'`;
   db.query(sql, (err, data) => {
     res.send(data);
   });
@@ -267,19 +273,70 @@ app.post("/surety_file", (req, res) => {
 // surety_aissc;
 app.post("/surety_file_aissc", (req, res) => {
   var { cand_id } = req.body;
-  var sql = `SELECT * FROM ems.surety_aissc where surety_id = '${cand_id}'`;
+  var sql = `SELECT * FROM admintv_ems.surety_aissc where surety_id = '${cand_id}'`;
   db.query(sql, (err, data) => {
     res.send(data);
   });
 });
 
 app.post("/fees_file", (req, res) => {
-  var cand_id = req.body;
-  var sql = `SELECT * FROM ems.fees_file;`;
+  console.log(req.body);
+  var { cand_id } = req.body;
+  var sql = `SELECT * FROM admintv_ems.fees_file where idfees_file ='${cand_id}'`;
   db.query(sql, (err, data) => {
     res.send(data);
   });
 });
+
+//initial_insert
+// student_details
+app.post("/student_home", upload.any(), initial_insert.student_home);
+// qualification_details
+app.post("/student_qual", upload.any(), insert.student_qual);
+// bank_details
+app.post("/student_bank", upload.any(), insert.student_bank);
+// surety_details
+app.post("/student_surety", upload.any(), insert.student_surety);
+//student_docs_end_of_submit
+app.post("/add_students", upload.any(), insert.student_docs);
+
+// initial_files
+// aadhar & bio
+app.post("/student_home_files", upload.any(), initial_files.student_home_files);
+// challan_files
+app.post("/student_bank_files", upload.any(), initial_files.student_bank_files);
+// surety_files
+app.post("/student_surety_files", upload.any(), initial_files.surety_mdms);
+// certificates_files
+app.post("/student_docs_files_1", upload.any(), initial_files.docs_file_1);
+app.post("/student_docs_files_2", upload.any(), initial_files.docs_file_2);
+app.post("/student_docs_files_3", upload.any(), initial_files.docs_file_3);
+app.post("/student_docs_files_4", upload.any(), initial_files.docs_file_4);
+app.post("/student_docs_files_5", upload.any(), initial_files.docs_file_5);
+app.post("/student_docs_files_6", upload.any(), initial_files.docs_file_6);
+app.post("/student_docs_files_7", upload.any(), initial_files.docs_file_7);
+app.post("/student_docs_files_8", upload.any(), initial_files.docs_file_8);
+app.post("/student_docs_files_9", upload.any(), initial_files.docs_file_9);
+app.post("/student_docs_files_10", upload.any(), initial_files.docs_file_10);
+app.post("/student_docs_files_11", upload.any(), initial_files.docs_file_11);
+app.post("/student_docs_files_12", upload.any(), initial_files.docs_file_12);
+app.post("/student_docs_files_13", upload.any(), initial_files.docs_file_13);
+app.post("/student_docs_files_14", upload.any(), initial_files.docs_file_14);
+app.post("/student_docs_files_15", upload.any(), initial_files.docs_file_15);
+app.post("/student_docs_files_16", upload.any(), initial_files.docs_file_16);
+app.post("/student_docs_files_17", upload.any(), initial_files.docs_file_17);
+app.post("/student_docs_files_18", upload.any(), initial_files.docs_file_18);
+app.post("/student_docs_files_19", upload.any(), initial_files.docs_file_19);
+app.post("/student_docs_files_20", upload.any(), initial_files.docs_file_20);
+app.post("/student_docs_files_21", upload.any(), initial_files.docs_file_21);
+app.post("/student_docs_files_22", upload.any(), initial_files.docs_file_22);
+app.post("/student_docs_files_23", upload.any(), initial_files.docs_file_23);
+app.post("/student_docs_files_24", upload.any(), initial_files.docs_file_24);
+app.post("/student_docs_files_25", upload.any(), initial_files.docs_file_25);
+app.post("/student_docs_files_26", upload.any(), initial_files.docs_file_26);
+app.post("/student_docs_files_27", upload.any(), initial_files.docs_file_27);
+app.post("/student_docs_files_28", upload.any(), initial_files.docs_file_28);
+app.post("/student_docs_files_29", upload.any(), initial_files.docs_file_29);
 
 //Middleware
 server.listen(8080, () => {

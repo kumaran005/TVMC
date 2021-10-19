@@ -97,37 +97,37 @@ exports.all_report = function (req, res) {
   switch (reports) {
     case "Admission Register":
       if (typeof cand_id === "object") {
-        var sql_admission = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details where cand_id in ('${cand_id.join(
+        var sql_admission = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id.join(
           "','"
         )}')`;
-        var sql_contact = `SELECT * from ems.cand_contact_details where cand_id in('${cand_id.join(
+        var sql_contact = `SELECT * from admintv_ems.cand_contact_details where cand_id in('${cand_id.join(
           "','"
         )}')`;
-        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details where cand_id in('${cand_id.join(
+        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details where cand_id in('${cand_id.join(
           "','"
         )}')`;
-        var sql_address = `SELECT * from ems.cand_address_details where cand_id in ('${cand_id.join(
+        var sql_address = `SELECT * from admintv_ems.cand_address_details where cand_id in ('${cand_id.join(
           "','"
         )}')`;
-        var sql_institute = `SELECT * from ems.cand_institute_details where cand_id in('${cand_id.join(
+        var sql_institute = `SELECT * from admintv_ems.cand_institute_details where cand_id in('${cand_id.join(
           "','"
         )}')`;
-        var sql_photo = `SELECT * from ems.biometric_details where cand_id in('${cand_id.join(
+        var sql_photo = `SELECT * from admintv_ems.biometric_details where cand_id in('${cand_id.join(
           "','"
         )}') and (category,active_flag) =('Photo','Y') `;
-        var sql_institute_mdms = `select * from ems.cand_admission_details
-                                  inner join ems.cand_academic_mdms on ems.cand_admission_details.cand_id = ems.cand_academic_mdms.cand_id where ems.cand_academic_mdms.cand_id  in('${cand_id.join(
+        var sql_institute_mdms = `select * from admintv_ems.cand_admission_details
+                                  inner join admintv_ems.cand_academic_mdms on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_academic_mdms.cand_id where admintv_ems.cand_academic_mdms.cand_id  in('${cand_id.join(
                                     "','"
                                   )}')`;
       } else {
-        var sql_admission = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details where cand_id in ('${cand_id}')`;
-        var sql_contact = `SELECT * from ems.cand_contact_details where cand_id in('${cand_id}')`;
-        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth from ems.cand_profile_details where cand_id in('${cand_id}')`;
-        var sql_address = `SELECT * from ems.cand_address_details where cand_id in('${cand_id}')`;
-        var sql_institute = `SELECT * from ems.cand_institute_details where cand_id in('${cand_id}')`;
-        var sql_photo = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
-        var sql_institute_mdms = `select * from ems.cand_admission_details
-                                  inner join ems.cand_academic_mdms on ems.cand_admission_details.cand_id = ems.cand_academic_mdms.cand_id where ems.cand_academic_mdms.cand_id in ('${cand_id}')`;
+        var sql_admission = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id}')`;
+        var sql_contact = `SELECT * from admintv_ems.cand_contact_details where cand_id in('${cand_id}')`;
+        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth from admintv_ems.cand_profile_details where cand_id in('${cand_id}')`;
+        var sql_address = `SELECT * from admintv_ems.cand_address_details where cand_id in('${cand_id}')`;
+        var sql_institute = `SELECT * from admintv_ems.cand_institute_details where cand_id in('${cand_id}')`;
+        var sql_photo = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+        var sql_institute_mdms = `select * from admintv_ems.cand_admission_details
+                                  inner join admintv_ems.cand_academic_mdms on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_academic_mdms.cand_id where admintv_ems.cand_academic_mdms.cand_id in ('${cand_id}')`;
       }
       db.query(sql_admission, (err, data_admission) => {
         db.query(sql_contact, (err, data_contact) => {
@@ -174,21 +174,21 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Admission Details":
-      var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details INNER JOIN
-                                ems.cand_profile_details ON ems.cand_admission_details.cand_id= ems.cand_profile_details.cand_id
+      var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details INNER JOIN
+                                admintv_ems.cand_profile_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_profile_details.cand_id
                                 INNER JOIN
-                                  ems.cand_institute_details_mdms ON ems.cand_profile_details.cand_id=  ems.cand_institute_details_mdms.cand_id
-                                where ems.cand_profile_details.cand_id= '${cand_id}'`;
+                                  admintv_ems.cand_institute_details_mdms ON admintv_ems.cand_profile_details.cand_id=  admintv_ems.cand_institute_details_mdms.cand_id
+                                where admintv_ems.cand_profile_details.cand_id= '${cand_id}'`;
       db.query(sql, function (err, data32) {
-        var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
+        var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
         db.query(sql, (err, data25) => {
-          var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data12) => {
-            var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data2) => {
-              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data1) => {
-                var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                 db.query(sql, (err, data) => {
                   res.render("report_Admission Details.ejs", {
                     userData: data1,
@@ -208,13 +208,13 @@ exports.all_report = function (req, res) {
       break;
 
     case "Discipline Declaration":
-      var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}' `;
+      var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}' `;
       db.query(sql, (err, data4) => {
-        var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data2) => {
-          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data1) => {
-            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data) => {
               res.render("report_Discipline_Declaration.ejs", {
                 userData: data1,
@@ -229,15 +229,15 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Admission Letter":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Thumb','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Thumb','Y') `;
       db.query(sql, (err, data19) => {
-        var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
+        var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
         db.query(sql, (err, data18) => {
-          var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+          var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
           db.query(sql, (err, data17) => {
-            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data1) => {
-              var sql = `SELECT *, DATE_FORMAT(course_commencement, '%d %M %Y') course_commencement , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT *, DATE_FORMAT(course_commencement, '%d %M %Y') course_commencement , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data) => {
                 res.render("report_admission_letter.ejs", {
                   userData: data1,
@@ -267,11 +267,11 @@ exports.all_report = function (req, res) {
       // console.table(array);
 
       array.forEach((e) => {
-        var sql = `select count(*) as result from ems.check_slip where (cand_id,certificate_type) = ('${cand_id}','${e.check_slip}')`;
+        var sql = `select count(*) as result from admintv_ems.check_slip where (cand_id,certificate_type) = ('${cand_id}','${e.check_slip}')`;
         db.query(sql, (err, Cdata) => {
           if (Cdata[0].result > 0) {
             db.query(
-              `update ems.check_slip set  certificate_status = '${e.check_status}', due_date = date_format(str_to_date('${e.check_date}','%d %M %Y'),'%Y-%m-%d'), remark = '${e.check_remark}', last_modified_time = '${last_modified_time}' where(cand_id,certificate_type) = ('${cand_id}','${e.check_slip}')`,
+              `update admintv_ems.check_slip set  certificate_status = '${e.check_status}', due_date = date_format(str_to_date('${e.check_date}','%d %M %Y'),'%Y-%m-%d'), remark = '${e.check_remark}', last_modified_time = '${last_modified_time}' where(cand_id,certificate_type) = ('${cand_id}','${e.check_slip}')`,
               (err) => {
                 if (err) {
                   console.log(err);
@@ -281,14 +281,14 @@ exports.all_report = function (req, res) {
           }
           if (Cdata[0].result == 0) {
             db.query(
-              `insert into ems.check_slip (cand_id, certificate_type, certificate_status, due_date, remark, last_modified_time) values ('${cand_id}','${e.check_slip}','${e.check_status}',date_format(str_to_date('${e.check_date}','%d %M %Y'),'%Y-%m-%d'),'${e.check_remark}','${last_modified_time}');`
+              `insert into admintv_ems.check_slip (cand_id, certificate_type, certificate_status, due_date, remark, last_modified_time) values ('${cand_id}','${e.check_slip}','${e.check_status}',date_format(str_to_date('${e.check_date}','%d %M %Y'),'%Y-%m-%d'),'${e.check_remark}','${last_modified_time}');`
             );
           }
         });
       });
-      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
       db.query(sql, (err, data1) => {
-        var sql = `SELECT *  , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+        var sql = `SELECT *  , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
 
         db.query(sql, (err, data) => {
           if (course == "MBBS" || course == "BSC") {
@@ -328,15 +328,15 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Student Details":
-      var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
+      var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
       db.query(sql, (err, data25) => {
-        var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data12) => {
-          var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data2) => {
-            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data1) => {
-              var sql = `SELECT *,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT *,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data) => {
                 res.render("report_personal.ejs", {
                   userData: data1,
@@ -353,21 +353,21 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Education Details":
-      var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Transfer Certificate','Y')`;
+      var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Transfer Certificate','Y')`;
       db.query(sql, (err, data26) => {
-        var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Migration Certificate','Y')`;
+        var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Migration Certificate','Y')`;
         db.query(sql, (err, data24) => {
-          var sql = `select * ,DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
+          var sql = `select * ,DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
           db.query(sql, (err, data23) => {
-            var sql = `SELECT * from ems.cand_institute_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_institute_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data9) => {
-              var sql = `SELECT * from ems.cand_marks_details where cand_id ='${cand_id}' `;
+              var sql = `SELECT * from admintv_ems.cand_marks_details where cand_id ='${cand_id}' `;
               db.query(sql, (err, data8) => {
-                var sql = `SELECT * from ems.cand_neet_mark_details where cand_id ='${cand_id}' `;
+                var sql = `SELECT * from admintv_ems.cand_neet_mark_details where cand_id ='${cand_id}' `;
                 db.query(sql, (err, data7) => {
-                  var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                  var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                   db.query(sql, (err, data1) => {
-                    var sql = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                    var sql = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                     db.query(sql, (err, data) => {
                       res.render("report_education.ejs", {
                         userData: data1,
@@ -391,35 +391,35 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Education Details mdms":
-      var sql = `SELECT * FROM ems.cand_academic_mdms INNER JOIN
-                                ems.cand_academic_mdms_1 ON ems.cand_academic_mdms.cand_id= ems.cand_academic_mdms_1.cand_id
+      var sql = `SELECT * FROM admintv_ems.cand_academic_mdms INNER JOIN
+                                admintv_ems.cand_academic_mdms_1 ON admintv_ems.cand_academic_mdms.cand_id= admintv_ems.cand_academic_mdms_1.cand_id
                                 INNER JOIN
-                                  ems.cand_academic_mdms_2 ON ems.cand_academic_mdms.cand_id=  ems.cand_academic_mdms_2.cand_id
-                                where ems.cand_academic_mdms.cand_id= '${cand_id}'`;
+                                  admintv_ems.cand_academic_mdms_2 ON admintv_ems.cand_academic_mdms.cand_id=  admintv_ems.cand_academic_mdms_2.cand_id
+                                where admintv_ems.cand_academic_mdms.cand_id= '${cand_id}'`;
       db.query(sql, function (err, data33) {
-        var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (PG DIPLOMA)','Y')`;
+        var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (PG DIPLOMA)','Y')`;
         db.query(sql, (err, data38) => {
-          var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (MBBS)','Y')`;
+          var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (MBBS)','Y')`;
           db.query(sql, (err, data37) => {
-            var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (PG DIPLOMA)','Y')`;
+            var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (PG DIPLOMA)','Y')`;
             db.query(sql, (err, data36) => {
-              var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (MBBS)','Y')`;
+              var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (MBBS)','Y')`;
               db.query(sql, (err, data35) => {
-                var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (MD/MS)','Y')`;
+                var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Medical Council Registration (MD/MS)','Y')`;
                 db.query(sql, (err, data34) => {
-                  var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (MD/MS)','Y')`;
+                  var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Degree Certificate (MD/MS)','Y')`;
                   db.query(sql, (err, data30) => {
-                    var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Transfer Certificate','Y')`;
+                    var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Transfer Certificate','Y')`;
                     db.query(sql, (err, data26) => {
-                      var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Migration Certificate','Y')`;
+                      var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Migration Certificate','Y')`;
                       db.query(sql, (err, data24) => {
-                        var sql = `select * ,DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
+                        var sql = `select * ,DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
                         db.query(sql, (err, data23) => {
-                          var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Conduct Certificate','Y')`;
+                          var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Conduct Certificate','Y')`;
                           db.query(sql, (err, data20) => {
-                            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                             db.query(sql, (err, data1) => {
-                              var sql = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                              var sql = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                               db.query(sql, (err, data) => {
                                 res.render("report_education_mdms.ejs", {
                                   userData: data1,
@@ -454,13 +454,13 @@ exports.all_report = function (req, res) {
       break;
 
     case "Bond Form":
-      var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}' `;
+      var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}' `;
       db.query(sql, (err, data4) => {
-        var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data2) => {
-          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data1) => {
-            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data) => {
               res.render("report_bond.ejs", {
                 userData: data1,
@@ -475,13 +475,13 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Bond Form BSC":
-      var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}' `;
+      var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}' `;
       db.query(sql, (err, data4) => {
-        var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data2) => {
-          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data1) => {
-            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data) => {
               res.render("report_bond_bsc.ejs", {
                 userData: data1,
@@ -498,23 +498,23 @@ exports.all_report = function (req, res) {
 
     case "Relieving Letter":
       if (typeof rel_cand_id === "object") {
-        var sql_admission = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details where cand_id in ('${rel_cand_id.join(
+        var sql_admission = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details where cand_id in ('${rel_cand_id.join(
           "','"
         )}')`;
-        var sql_relieving = `SELECT *, DATE_FORMAT(date_of_relieving, '%d-%M-%Y') date_of_relieving from ems.cand_relieving_details where cand_id in ('${rel_cand_id.join(
+        var sql_relieving = `SELECT *, DATE_FORMAT(date_of_relieving, '%d-%M-%Y') date_of_relieving from admintv_ems.cand_relieving_details where cand_id in ('${rel_cand_id.join(
           "','"
         )}')`;
-        var sql_bank = `select * from ems.cand_bank_details where cand_id in('${rel_cand_id.join(
+        var sql_bank = `select * from admintv_ems.cand_bank_details where cand_id in('${rel_cand_id.join(
           "','"
         )}')`;
-        var sql_profile = `select * from ems.cand_profile_details where cand_id in ('${rel_cand_id.join(
+        var sql_profile = `select * from admintv_ems.cand_profile_details where cand_id in ('${rel_cand_id.join(
           "','"
         )}')`;
       } else {
-        var sql_admission = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details where cand_id in ('${rel_cand_id}')`;
-        var sql_relieving = `SELECT *,  DATE_FORMAT(date_of_relieving, '%d-%M-%Y') date_of_relieving from ems.cand_relieving_details where cand_id in ('${rel_cand_id}')`;
-        var sql_bank = `select * from ems.cand_bank_details where cand_id in('${rel_cand_id}') `;
-        var sql_profile = `select * from ems.cand_profile_details where cand_id in ('${rel_cand_id}')`;
+        var sql_admission = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details where cand_id in ('${rel_cand_id}')`;
+        var sql_relieving = `SELECT *,  DATE_FORMAT(date_of_relieving, '%d-%M-%Y') date_of_relieving from admintv_ems.cand_relieving_details where cand_id in ('${rel_cand_id}')`;
+        var sql_bank = `select * from admintv_ems.cand_bank_details where cand_id in('${rel_cand_id}') `;
+        var sql_profile = `select * from admintv_ems.cand_profile_details where cand_id in ('${rel_cand_id}')`;
       }
       db.query(sql_admission, (err, data_admission) => {
         db.query(sql_relieving, (err, data_relieving) => {
@@ -539,11 +539,11 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Bonofide Certificate":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
       db.query(sql, (err, data17) => {
-        var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+        var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
         db.query(sql, (err, data1) => {
-          var sql = `SELECT *  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT *  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data) => {
             res.render("report_bonafide_certificate.ejs", {
               userData: data1,
@@ -565,16 +565,16 @@ exports.all_report = function (req, res) {
     case "Certificate Return Acknowledgment":
       var sql = "SELECT * FROM `ack_certificate`;";
       db.query(sql, function (err, data27) {
-        var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
+        var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
         db.query(sql, (err, data18) => {
-          var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}'`;
-          var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}'`;
+          var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data4) => {
-            var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data2) => {
-              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data1) => {
-                var sql = `SELECT *  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                var sql = `SELECT *  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                 db.query(sql, (err, data) => {
                   res.render("report_acknowledgement.ejs", {
                     userData: data1,
@@ -598,16 +598,16 @@ exports.all_report = function (req, res) {
     case "Certificate Return Acknowledgment mdms":
       var sql = "SELECT * FROM `ack_certificate_mdms`;";
       db.query(sql, function (err, data28) {
-        var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
+        var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
         db.query(sql, (err, data18) => {
-          var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}'`;
-          var sql = `SELECT * from ems.cand_surety_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}'`;
+          var sql = `SELECT * from admintv_ems.cand_surety_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data4) => {
-            var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data2) => {
-              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data1) => {
-                var sql = `SELECT *  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                var sql = `SELECT *  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                 db.query(sql, (err, data) => {
                   res.render("report_ack_mdms.ejs", {
                     userData: data1,
@@ -630,19 +630,19 @@ exports.all_report = function (req, res) {
       break;
 
     case "University Form":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
       db.query(sql, (err, data17) => {
-        var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data12) => {
-          var sql = `SELECT * from ems.cand_institute_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_institute_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data9) => {
-            var sql = `SELECT * from ems.cand_marks_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_marks_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data8) => {
-              var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+              var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
               db.query(sql, (err, data2) => {
-                var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                 db.query(sql, (err, data1) => {
-                  var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                  var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                   db.query(sql, (err, data) => {
                     res.render("report_univ_form.ejs", {
                       userData: data1,
@@ -663,29 +663,29 @@ exports.all_report = function (req, res) {
       });
       break;
     case "University Form mdms":
-      var sql = `SELECT * FROM ems.cand_academic_mdms INNER JOIN
-                            ems.cand_academic_mdms_1 ON ems.cand_academic_mdms.cand_id= ems.cand_academic_mdms_1.cand_id
+      var sql = `SELECT * FROM admintv_ems.cand_academic_mdms INNER JOIN
+                            admintv_ems.cand_academic_mdms_1 ON admintv_ems.cand_academic_mdms.cand_id= admintv_ems.cand_academic_mdms_1.cand_id
                             INNER JOIN
-                              ems.cand_academic_mdms_2 ON ems.cand_academic_mdms.cand_id=  ems.cand_academic_mdms_2.cand_id
-                            where ems.cand_academic_mdms.cand_id= '${cand_id}'`;
+                              admintv_ems.cand_academic_mdms_2 ON admintv_ems.cand_academic_mdms.cand_id=  admintv_ems.cand_academic_mdms_2.cand_id
+                            where admintv_ems.cand_academic_mdms.cand_id= '${cand_id}'`;
       db.query(sql, function (err, data33) {
-        var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
+        var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
         db.query(sql, (err, data25) => {
-          var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
+          var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
           db.query(sql, (err, data24) => {
-            var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+            var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
             db.query(sql, (err, data17) => {
-              var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+              var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
               db.query(sql, (err, data12) => {
-                var sql = `SELECT * from ems.cand_institute_details where cand_id ='${cand_id}' `;
+                var sql = `SELECT * from admintv_ems.cand_institute_details where cand_id ='${cand_id}' `;
                 db.query(sql, (err, data9) => {
-                  var sql = `SELECT * from ems.cand_marks_details where cand_id ='${cand_id}' `;
+                  var sql = `SELECT * from admintv_ems.cand_marks_details where cand_id ='${cand_id}' `;
                   db.query(sql, (err, data8) => {
-                    var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+                    var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
                     db.query(sql, (err, data2) => {
-                      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                       db.query(sql, (err, data1) => {
-                        var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                        var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                         db.query(sql, (err, data) => {
                           res.render("report_univ_form_mdms.ejs", {
                             userData: data1,
@@ -713,29 +713,29 @@ exports.all_report = function (req, res) {
       });
       break;
     case "University Form aissc":
-      var sql = `SELECT * FROM ems.cand_academic_mdms INNER JOIN
-                            ems.cand_academic_mdms_1 ON ems.cand_academic_mdms.cand_id= ems.cand_academic_mdms_1.cand_id
+      var sql = `SELECT * FROM admintv_ems.cand_academic_mdms INNER JOIN
+                            admintv_ems.cand_academic_mdms_1 ON admintv_ems.cand_academic_mdms.cand_id= admintv_ems.cand_academic_mdms_1.cand_id
                             INNER JOIN
-                              ems.cand_academic_mdms_2 ON ems.cand_academic_mdms.cand_id=  ems.cand_academic_mdms_2.cand_id
-                            where ems.cand_academic_mdms.cand_id= '${cand_id}'`;
+                              admintv_ems.cand_academic_mdms_2 ON admintv_ems.cand_academic_mdms.cand_id=  admintv_ems.cand_academic_mdms_2.cand_id
+                            where admintv_ems.cand_academic_mdms.cand_id= '${cand_id}'`;
       db.query(sql, function (err, data33) {
-        var sql = `select * from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
+        var sql = `select * from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Community Certificate','Y')`;
         db.query(sql, (err, data25) => {
-          var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
+          var sql = `select * , DATE_FORMAT(date, '%d/%m/%Y') date from admintv_ems.certificate_details where(cand_id,all_certificate,active_flag) =('${cand_id}','Eligibility Certificate','Y')`;
           db.query(sql, (err, data24) => {
-            var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+            var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
             db.query(sql, (err, data17) => {
-              var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+              var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
               db.query(sql, (err, data12) => {
-                var sql = `SELECT * from ems.cand_institute_details where cand_id ='${cand_id}' `;
+                var sql = `SELECT * from admintv_ems.cand_institute_details where cand_id ='${cand_id}' `;
                 db.query(sql, (err, data9) => {
-                  var sql = `SELECT * from ems.cand_marks_details where cand_id ='${cand_id}' `;
+                  var sql = `SELECT * from admintv_ems.cand_marks_details where cand_id ='${cand_id}' `;
                   db.query(sql, (err, data8) => {
-                    var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+                    var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
                     db.query(sql, (err, data2) => {
-                      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                       db.query(sql, (err, data1) => {
-                        var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                        var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission  FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                         db.query(sql, (err, data) => {
                           res.render("report_univ_form_aissc.ejs", {
                             userData: data1,
@@ -764,19 +764,19 @@ exports.all_report = function (req, res) {
       break;
 
     case "University Form BSC":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
       db.query(sql, (err, data17) => {
-        var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data12) => {
-          var sql = `SELECT * from ems.cand_institute_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_institute_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data9) => {
-            var sql = `SELECT * from ems.cand_marks_details where cand_id ='${cand_id}' `;
+            var sql = `SELECT * from admintv_ems.cand_marks_details where cand_id ='${cand_id}' `;
             db.query(sql, (err, data8) => {
-              var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+              var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
               db.query(sql, (err, data2) => {
-                var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+                var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
                 db.query(sql, (err, data1) => {
-                  var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+                  var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
                   db.query(sql, (err, data) => {
                     res.render("report_univ_form_bsc.ejs", {
                       userData: data1,
@@ -797,11 +797,11 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Transfer Certificate":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
       db.query(sql, (err, data17) => {
-        var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+        var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
         db.query(sql, (err, data1) => {
-          var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data) => {
             res.render("report_transfer.ejs", {
               userData: data1,
@@ -820,9 +820,9 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Conduct Certificate":
-      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+      var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
       db.query(sql, (err, data1) => {
-        var sql = `select * from ems.cand_admission_details where cand_id = '${cand_id}'`;
+        var sql = `select * from admintv_ems.cand_admission_details where cand_id = '${cand_id}'`;
         db.query(sql, (err, data) => {
           res.render("report_conduct.ejs", {
             userData: data1,
@@ -840,13 +840,13 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Scholarship Register":
-      var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+      var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
       db.query(sql, (err, data12) => {
-        var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data2) => {
-          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+          var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
           db.query(sql, (err, data1) => {
-            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data) => {
               res.render("report_scholership.ejs", {
                 userData: data1,
@@ -861,15 +861,15 @@ exports.all_report = function (req, res) {
       });
       break;
     case "Bonofide Register":
-      var sql = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+      var sql = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
       db.query(sql, (err, data17) => {
-        var sql = `SELECT * from ems.cand_contact_details where cand_id ='${cand_id}' `;
+        var sql = `SELECT * from admintv_ems.cand_contact_details where cand_id ='${cand_id}' `;
         db.query(sql, (err, data12) => {
-          var sql = `SELECT * from ems.cand_address_details where cand_id ='${cand_id}' `;
+          var sql = `SELECT * from admintv_ems.cand_address_details where cand_id ='${cand_id}' `;
           db.query(sql, (err, data2) => {
-            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details WHERE cand_id='${cand_id}'`;
+            var sql = `SELECT *, DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details WHERE cand_id='${cand_id}'`;
             db.query(sql, (err, data1) => {
-              var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details WHERE cand_id='${cand_id}'`;
+              var sql = `SELECT * , DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details WHERE cand_id='${cand_id}'`;
               db.query(sql, (err, data) => {
                 res.render("report_bonafide_register.ejs", {
                   userData: data1,
@@ -888,11 +888,11 @@ exports.all_report = function (req, res) {
 
     case "Enroll":
       if (typeof cand_id === "object") {
-        var sql_admission = `SELECT * FROM ems.cand_admission_details where cand_id in ('${cand_id.join(
+        var sql_admission = `SELECT * FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id.join(
           "','"
         )}')`;
       } else {
-        var sql_admission = `SELECT *  FROM ems.cand_admission_details where cand_id in ('${cand_id}')`;
+        var sql_admission = `SELECT *  FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id}')`;
       }
       db.query(sql_admission, (err, data_admission) => {
         return res.render(
@@ -904,34 +904,34 @@ exports.all_report = function (req, res) {
         );
       });
       break;
-      case "ID Card":
+    case "ID Card":
       if (typeof cand_id === "object") {
-        var sql_admission = `SELECT *FROM ems.cand_admission_details where cand_id in ('${cand_id.join(
+        var sql_admission = `SELECT *FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id.join(
           "','"
         )}')`;
-        var sql_contact = `SELECT * from ems.cand_contact_details where cand_id in('${cand_id.join(
+        var sql_contact = `SELECT * from admintv_ems.cand_contact_details where cand_id in('${cand_id.join(
           "','"
         )}')`;
-        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM ems.cand_profile_details where cand_id in('${cand_id.join(
+        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth FROM admintv_ems.cand_profile_details where cand_id in('${cand_id.join(
           "','"
         )}')`;
-        var sql_address = `SELECT * from ems.cand_address_details where cand_id in ('${cand_id.join(
+        var sql_address = `SELECT * from admintv_ems.cand_address_details where cand_id in ('${cand_id.join(
           "','"
         )}')`;
 
-        var sql_photo = `SELECT * from ems.biometric_details where cand_id in('${cand_id.join(
+        var sql_photo = `SELECT * from admintv_ems.biometric_details where cand_id in('${cand_id.join(
           "','"
         )}') and (category,active_flag) =('Photo','Y') `;
-        var sql_sign = `SELECT * from ems.biometric_details where cand_id in('${cand_id.join(
+        var sql_sign = `SELECT * from admintv_ems.biometric_details where cand_id in('${cand_id.join(
           "','"
         )}') and (category,active_flag) =('Sign','Y') `;
       } else {
-        var sql_admission = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_admission_details where cand_id in ('${cand_id}')`;
-        var sql_contact = `SELECT * from ems.cand_contact_details where cand_id in('${cand_id}')`;
-        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth from ems.cand_profile_details where cand_id in('${cand_id}')`;
-        var sql_address = `SELECT * from ems.cand_address_details where cand_id in('${cand_id}')`;
-        var sql_photo = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
-        var sql_sign = `SELECT * from ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
+        var sql_admission = `SELECT * ,  DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_admission_details where cand_id in ('${cand_id}')`;
+        var sql_contact = `SELECT * from admintv_ems.cand_contact_details where cand_id in('${cand_id}')`;
+        var sql_profile = `SELECT *,DATE_FORMAT(date_of_birth, '%d/%m/%Y') date_of_birth from admintv_ems.cand_profile_details where cand_id in('${cand_id}')`;
+        var sql_address = `SELECT * from admintv_ems.cand_address_details where cand_id in('${cand_id}')`;
+        var sql_photo = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Photo','Y') `;
+        var sql_sign = `SELECT * from admintv_ems.biometric_details where (cand_id,category,active_flag) =('${cand_id}','Sign','Y') `;
       }
       db.query(sql_admission, (err, data_admission) => {
         db.query(sql_contact, (err, data_contact) => {
@@ -939,25 +939,22 @@ exports.all_report = function (req, res) {
             db.query(sql_address, (err, data_address) => {
               db.query(sql_photo, (err, data_photo) => {
                 db.query(sql_sign, (err, data_sign) => {
-                  return res.render(
-                    "report_idcard.ejs",
-                    {
-                      userData: data_admission,
-                      userData1: data_profile,
-                      userData2: data_address,
-                      userData8: data_contact,
-                      userData12: data_photo,
-                      userData13: data_sign,
-                      course: course,
-                    } 
-                  );
+                  return res.render("report_idcard.ejs", {
+                    userData: data_admission,
+                    userData1: data_profile,
+                    userData2: data_address,
+                    userData8: data_contact,
+                    userData12: data_photo,
+                    userData13: data_sign,
+                    course: course,
+                  });
                 });
               });
             });
           });
         });
       });
-     
+
     case "Report":
       break;
 
@@ -982,4 +979,3 @@ exports.all_report = function (req, res) {
       break;
   }
 };
-

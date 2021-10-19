@@ -1,19 +1,44 @@
 var nodemailer = require("nodemailer");
+var { google } = require("googleapis");
+require("dotenv").config();
+
+var CLIENT_ID =
+  "317147454135-afi1nv4j65bqn9agu7d99r4g124g624d.apps.googleusercontent.com";
+var CLIENT_SECRET = "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";
+var REDIRECT_URI = "https://developers.google.com/oauthplayground";
+var REFRESH_TOKEN =
+  "1//04m7EASJrfU-1CgYIARAAGAQSNwF-L9Ir15ST1qbRZrFCF5rsb19g9hWH4x6N7S896r5kSdMRcg5a-XZUj0raFf67vnRoIbBm5G0";
+
+const oAuth2client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
+oAuth2client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 exports.mail = (req, res) => {
-  var pwd = 'QWas*"09';
+  var access_token = oAuth2client.getAccessToken();
   var { userid, emailid, password } = req.session.login_user;
   // console.log(req.session.login_user);
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
+var transporter = nodemailer.createTransport({
+    pool:true,
+	secure:false,
+	host:'smtp.gmail.com',
     auth: {
-      user: "rkumaran368@gmail.com",
-      pass: `${pwd}`,
+      type: "OAuth2",
+      user: "admissions@tvmc.ac.in",
+      clientId: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
+      refreshToken: REFRESH_TOKEN,
+      accessToken: access_token,
     },
+	tls:{
+rejectUnauthorized:false
+}
   });
 
   var mailOptions = {
-    from: "rkumaran368@gmail.com",
+    from: "TVMC <admissions@tvmc.ac.in>",
     to: `${emailid}`,
     subject: "Sending Email from TVMC",
     text: `Dear User,
@@ -23,6 +48,13 @@ exports.mail = (req, res) => {
           Thanks and Regards,
           Tirunelveli Medical College,
           Tirunelveli`,
+	    html: `<h5><br>Dear User,<br>
+          <br>Please find your user name and password to login <br>
+          <br>Username: ${userid}<br>
+              <br>Password: ${password}<br>
+          <br>Thanks and Regards,<br>
+          Tirunelveli Medical College,
+          <br>Tirunelveli<br></h5>`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -41,8 +73,9 @@ function convertCryptKey(strKey) {
   return newKey;
 }
 exports.pwdrecover = (req, res, data) => {
+  var access_token = oAuth2client.getAccessToken();
   var rdata = JSON.parse(JSON.stringify(data));
-  var pwd = 'QWas*"09';
+
   var userid = rdata[0].user_id;
   var emailid = rdata[0].emailid;
   var epass = rdata[0].password;
@@ -53,14 +86,23 @@ exports.pwdrecover = (req, res, data) => {
   );
   var password = dc.update(epass, "hex", "utf8") + dc.final("utf8");
   var transport = nodemailer.createTransport({
-    service: "gmail",
+    pool:true,
+	secure:false,
+	host:'smtp.gmail.com',
     auth: {
-      user: "rkumaran368@gmail.com",
-      pass: `${pwd}`,
+      type: "OAuth2",
+      user: "admissions@tvmc.ac.in",
+      clientId: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
+      refreshToken: REFRESH_TOKEN,
+      accessToken: access_token,
     },
+	tls:{
+rejectUnauthorized:false
+}
   });
   var mailOptions = {
-    from: "rkumaran368@gmail.com",
+    from: "TVMC <admission@tvmc.ac.in>",
     to: `${emailid}`,
     subject: "Sending Email from TVMC",
     text: `Dear User,
@@ -70,6 +112,13 @@ exports.pwdrecover = (req, res, data) => {
           Thanks and Regards,
           Tirunelveli Medical College,
           Tirunelveli`,
+    html: `<h5><br>Dear User,<br>
+          <br>Please find your user name and password to login <br>
+          <br>Username: ${userid}<br>
+            <br>  Password: ${password}<br>
+          Thanks and Regards,
+          <br>Tirunelveli Medical College,<br>
+          <br>Tirunelveli<br></h5>`,
   };
   transport.sendMail(mailOptions, function (error, info) {
     if (error) {

@@ -63,7 +63,7 @@ I<!DOCTYPE html>
           </div>
           <div class="col-md-7">
             <h4 class="text-primary">Tirunelveli Medical College</h4>
-            <h5>Create your Account</h5>
+            <h5>My Profile(Basic Details)</h5>
 
             <form
               id="loginform"
@@ -174,7 +174,7 @@ I<!DOCTYPE html>
                     <% i++; }) %> <% } else{ %> <% } %>
                   </select>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                   <select
                     class="form-control"
                     id="community"
@@ -191,12 +191,14 @@ I<!DOCTYPE html>
                   </select>
                 </div>
 
-                <div class="form-group col-md-6">
-                  <select id="relation" class="form-control" name="relation">
-                    <option disabled="" selected="" value="">
-                      Relationship with Student*
-                    </option>
-                    <option value="Self">Self</option>
+                <div class="form-group col-md-6" hidden>
+                  <select
+                    id="relation"
+                    class="form-control"
+                    hidden
+                    name="relation"
+                  >
+                    <option selected value="Self">Self</option>
                     <option value="Father">Father</option>
                     <option value="Mother">Mother</option>
                     <option value="Brother">Brother</option>

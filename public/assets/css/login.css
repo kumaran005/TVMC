@@ -1,4 +1,3 @@
-
 /* BASIC */
 
 html {
@@ -8,59 +7,58 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
- 
 }
 
 a {
-  color:dodgerblue;
-  display:inline-block;
-  text-decoration: unset!important;
+  color: dodgerblue;
+  display: inline-block;
+  text-decoration: unset !important;
   font-weight: 400;
 }
 
-h2,h3,h4 {
+h2,
+h3,
+h4 {
   text-align: center;
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
-  display:inline-block;
-  color:dodgerblue;
+  display: inline-block;
+  color: dodgerblue;
 }
-
-
 
 /* STRUCTURE */
 
 .wrapper {
   display: flex;
   align-items: center;
-  color:dodgerblue;
+  color: dodgerblue;
   justify-content: center;
   width: 100%;
   min-height: 60%;
-
 }
-p .footer{
-  text-align:center;
+p .footer {
+  text-align: center;
   text-align-last: center;
-  color:dodgerblue;
+  color: dodgerblue;
 }
-
 
 #formContent {
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
 
-  width: 90%;
+  width: 100%;
   max-width: 450px;
   position: relative;
   padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
 }
-
+#ol li {
+  font-size: 15px;
+}
 #formFooter {
   background-color: #f6f6f6;
   border-top: 1px solid #dce8f1;
@@ -69,14 +67,14 @@ p .footer{
   -webkit-border-radius: 0 0 10px 10px;
   border-radius: 0 0 10px 10px;
 }
-label{
+label {
   color: dodgerblue;
   text-align: center;
   -webkit-border-radius: 0 0 10px 10px;
   border-radius: 0 0 10px 10px;
   font-weight: bold;
 }
-select{
+select {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -97,7 +95,6 @@ select{
   border-radius: 5px 5px 5px 5px;
 }
 
-
 /* TABS */
 
 h2.inactive {
@@ -109,12 +106,12 @@ h2.active {
   border-bottom: 2px solid dodgerblue;
 }
 
-
-
 /* FORM TYPOGRAPHY*/
 
-input[type=submit], input[type=submit], input[type=reset]  {
-  background-color:  dodgerblue;
+input[type="submit"],
+input[type="submit"],
+input[type="reset"] {
+  background-color: dodgerblue;
   border: none;
   color: white;
   padding: 15px 80px;
@@ -135,11 +132,15 @@ input[type=submit], input[type=submit], input[type=reset]  {
   transition: all 0.3s ease-in-out;
 }
 
-input[type=submit]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-  background-color:  dodgerblue;
+input[type="submit"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background-color: dodgerblue;
 }
 
-input[type=submit]:active, input[type=submit]:active, input[type=reset]:active  {
+input[type="submit"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active {
   -moz-transform: scale(0.95);
   -webkit-transform: scale(0.95);
   -o-transform: scale(0.95);
@@ -147,39 +148,8 @@ input[type=submit]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text],input[type=tel]  {
-  background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  border: 2px solid #f6f6f6;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-
-}
-
-input[type=text]:focus {
-  background-color: #fff;
-  border-bottom: 2px solid  dodgerblue;
-}
-input{
-  text-align: left!important;
-}
-input[type=text]:placeholder {
-  color: dodgerblue;
-}
-input[type=password] {
+input[type="text"],
+input[type="tel"] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -199,48 +169,18 @@ input[type=password] {
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
-input[type=password]:focus {
-  background-color: #fff;
-  border-bottom: 2px solid  dodgerblue;
-}
 
-input[type=password]:placeholder {
+input[type="text"]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid dodgerblue;
+}
+input {
+  text-align: left !important;
+}
+input[type="text"]:placeholder {
   color: dodgerblue;
 }
-
-select,textarea
-{ background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  border: 2px solid #f6f6f6;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-
-}
-select:focus,textarea:focus
-{
-  background-color: #fff;
-  border-bottom: 2px solid  dodgerblue;
-}
-select:placeholder,textarea:placeholder
-{
-  color: dodgerblue;
-
-}
-
-input[type=email] {
+input[type="password"] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -260,12 +200,72 @@ input[type=email] {
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
-input[type=email]:focus {
+input[type="password"]:focus {
   background-color: #fff;
-  border-bottom: 2px solid  dodgerblue;
+  border-bottom: 2px solid dodgerblue;
 }
 
-input[type=email]:placeholder {
+input[type="password"]:placeholder {
+  color: dodgerblue;
+}
+
+select,
+textarea {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+select:focus,
+textarea:focus {
+  background-color: #fff;
+  border-bottom: 2px solid dodgerblue;
+}
+select:placeholder,
+textarea:placeholder {
+  color: dodgerblue;
+}
+
+input[type="email"] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+input[type="email"]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid dodgerblue;
+}
+
+input[type="email"]:placeholder {
   color: dodgerblue;
 }
 /* ANIMATIONS */
@@ -307,23 +307,44 @@ input[type=email]:placeholder {
 }
 
 /* Simple CSS3 Fade-in Animation */
-@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .fadeIn {
-  opacity:0;
-  -webkit-animation:fadeIn ease-in 1;
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
 
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 
-  -webkit-animation-duration:1s;
-  -moz-animation-duration:1s;
-  animation-duration:1s;
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
 }
 
 .fadeIn.first {
@@ -366,28 +387,24 @@ input[type=email]:placeholder {
   color: #0d0d0d;
 }
 
-.underlineHover:hover:after{
+.underlineHover:hover:after {
   width: 100%;
 }
-
-
 
 /* OTHERS */
 
 *:focus {
-    outline: none;
-} 
+  outline: none;
+}
 
 #icon {
-  width:25%;
+  width: 25%;
   color: dodgerblue;
-
 }
-.btn
-{
+.btn {
   background-color: dodgerblue;
-  color:white;
+  color: white;
 }
-#logo{
-  width:150px; 
+#logo {
+  width: 150px;
 }

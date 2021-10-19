@@ -8,27 +8,27 @@ exports.reli_check = function (req, res, next) {
   var reli_info = post.reli_info;
   // console.log("Relieving info: " + reli_info);
   if (reli_info == "All") {
-    var sql = `SELECT * FROM ems.check_slip_status`;
+    var sql = `SELECT * FROM admintv_ems.check_slip_status`;
     db.query(sql, function (err, data30) {
-      var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-  ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-   where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','MBBS')`;
+      var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+  admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+   where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','MBBS')`;
       db.query(sql, function (err, data27) {
-        var sql = `SELECT * FROM ems.state_details`;
+        var sql = `SELECT * FROM admintv_ems.state_details`;
         db.query(sql, function (err, data10) {
-          var sql = `SELECT * FROM ems.admiss_type`;
+          var sql = `SELECT * FROM admintv_ems.admiss_type`;
           db.query(sql, function (err, data8) {
-            var sql = `SELECT * FROM ems.admiss_quota`;
+            var sql = `SELECT * FROM admintv_ems.admiss_quota`;
             db.query(sql, function (err, data7) {
-              var sql = `SELECT * FROM ems.community_details`;
+              var sql = `SELECT * FROM admintv_ems.community_details`;
               db.query(sql, function (err, data6) {
-                var sql = `SELECT * FROM ems.nation_details`;
+                var sql = `SELECT * FROM admintv_ems.nation_details`;
                 db.query(sql, function (err, data5) {
-                  var sql = `SELECT * FROM ems.religion_details`;
+                  var sql = `SELECT * FROM admintv_ems.religion_details`;
                   db.query(sql, function (err, data4) {
-                    var sql = `SELECT * FROM ems.no_delete`;
+                    var sql = `SELECT * FROM admintv_ems.no_delete`;
                     db.query(sql, function (err, data3) {
-                      var sql = `SELECT * FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+                      var sql = `SELECT * FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
                       where (course_title,active_status) = ('${course}','Yes') order by student_code`;
                       db.query(sql, function (err, data) {
                         if (course == "MBBS") {
@@ -117,27 +117,27 @@ exports.reli_check = function (req, res, next) {
       });
     });
   } else {
-    var sql = `SELECT * FROM ems.check_slip_status`;
+    var sql = `SELECT * FROM admintv_ems.check_slip_status`;
     db.query(sql, function (err, data30) {
-      var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-  ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-   where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','MBBS')`;
+      var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+  admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+   where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','MBBS')`;
       db.query(sql, function (err, data27) {
-        var sql = `SELECT * FROM ems.state_details`;
+        var sql = `SELECT * FROM admintv_ems.state_details`;
         db.query(sql, function (err, data10) {
-          var sql = `SELECT * FROM ems.admiss_type`;
+          var sql = `SELECT * FROM admintv_ems.admiss_type`;
           db.query(sql, function (err, data8) {
-            var sql = `SELECT * FROM ems.admiss_quota`;
+            var sql = `SELECT * FROM admintv_ems.admiss_quota`;
             db.query(sql, function (err, data7) {
-              var sql = `SELECT * FROM ems.community_details`;
+              var sql = `SELECT * FROM admintv_ems.community_details`;
               db.query(sql, function (err, data6) {
-                var sql = `SELECT * FROM ems.nation_details`;
+                var sql = `SELECT * FROM admintv_ems.nation_details`;
                 db.query(sql, function (err, data5) {
-                  var sql = `SELECT * FROM ems.religion_details`;
+                  var sql = `SELECT * FROM admintv_ems.religion_details`;
                   db.query(sql, function (err, data4) {
-                    var sql = `SELECT * FROM ems.no_delete`;
+                    var sql = `SELECT * FROM admintv_ems.no_delete`;
                     db.query(sql, function (err, data3) {
-                      var sql = `SELECT * FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+                      var sql = `SELECT * FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
                       where (course_title,active_status,relieved) = ('${course}','Yes','${reli_info}') order by student_code`;
                       db.query(sql, function (err, data) {
                         if (course == "MBBS") {

@@ -46,7 +46,7 @@ exports.collect_fees = function (req, res) {
     .toString()
     .padStart(2, "0")}`;
 
-  var sql = `UPDATE ems.cand_fees SET  tution_fee ='${tution_fee}', special_fee='${special_fee}', medical_fee='${medical_fee}', caution_fee='${caution_fee}', lib_fee='${lib_fee}', univ_fee='${univ_fee}', lic_fee='${lic_fee}', red_fee='${red_fee}', mis_fee='${mis_fee}', flag_fee='${flag_fee}', total_fee='${total_fee}', last_modified_time='${last_modified_time}' WHERE (cand_id ='${cand_id}')`;
+  var sql = `UPDATE admintv_ems.cand_fees SET  tution_fee ='${tution_fee}', special_fee='${special_fee}', medical_fee='${medical_fee}', caution_fee='${caution_fee}', lib_fee='${lib_fee}', univ_fee='${univ_fee}', lic_fee='${lic_fee}', red_fee='${red_fee}', mis_fee='${mis_fee}', flag_fee='${flag_fee}', total_fee='${total_fee}', last_modified_time='${last_modified_time}' WHERE (cand_id ='${cand_id}')`;
   db.query(sql, function () {
     switch (course) {
       case "MBBS":
@@ -118,16 +118,16 @@ exports.print_fees = function (req, res) {
     .padStart(2, "0")}`;
 
   // console.log(cand_id);
-  var sql = `UPDATE ems.cand_fees SET  tution_fee ='${tution_fee}', special_fee='${special_fee}', medical_fee='${medical_fee}', caution_fee='${caution_fee}', lib_fee='${lib_fee}', univ_fee='${univ_fee}', lic_fee='${lic_fee}', red_fee='${red_fee}', mis_fee='${mis_fee}', flag_fee='${flag_fee}', total_fee='${total_fee}', last_modified_time='${last_modified_time}' WHERE (cand_id ='${cand_id}')`;
+  var sql = `UPDATE admintv_ems.cand_fees SET  tution_fee ='${tution_fee}', special_fee='${special_fee}', medical_fee='${medical_fee}', caution_fee='${caution_fee}', lib_fee='${lib_fee}', univ_fee='${univ_fee}', lic_fee='${lic_fee}', red_fee='${red_fee}', mis_fee='${mis_fee}', flag_fee='${flag_fee}', total_fee='${total_fee}', last_modified_time='${last_modified_time}' WHERE (cand_id ='${cand_id}')`;
   db.query(sql, function () {
-    var sql = `SELECT * FROM ems.cand_fees where cand_id  ='${cand_id}'`;
+    var sql = `SELECT * FROM admintv_ems.cand_fees where cand_id  ='${cand_id}'`;
     db.query(sql, function (err, data11) {
-      var sql = `SELECT * FROM ems.cand_profile_details where cand_id ='${cand_id}'`;
+      var sql = `SELECT * FROM admintv_ems.cand_profile_details where cand_id ='${cand_id}'`;
       db.query(sql, function (err, data) {
-        var sql = `SELECT * FROM ems.cand_admission_details where cand_id = '${cand_id}'`;
+        var sql = `SELECT * FROM admintv_ems.cand_admission_details where cand_id = '${cand_id}'`;
         db.query(sql, function (err, data1) {
           // console.log(data11);
-          // select * from ems.cand_profile_details where cand_id in (select cand_id from cand_admission_details where couse ='MDMS');
+          // select * from admintv_ems.cand_profile_details where cand_id in (select cand_id from cand_admission_details where couse ='MDMS');
           switch (course) {
             case "MBBS":
               res.render("report_fees.ejs", {

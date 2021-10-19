@@ -1,42 +1,1346 @@
-function reSum() {
-  var num1 = Number(document.getElementById("Num1").value);
-  var num2 = Number(document.getElementById("Num2").value);
-  document.getElementById("Sum").value = num1 + num2;
-}
-function reSum1() {
-  var num1 = Number(document.getElementById("Num11").value);
-  var num2 = Number(document.getElementById("Num21").value);
-  document.getElementById("Sum1").value = num1 + num2;
-}
-function reSum12() {
-  var num1 = Number(document.getElementById("Num12").value);
-  var num2 = Number(document.getElementById("Num22").value);
-  document.getElementById("Sum12").value = num1 + num2;
-}
-function reSum13() {
-  var num1 = Number(document.getElementById("Num13").value);
-  var num2 = Number(document.getElementById("Num23").value);
-  document.getElementById("Sum13").value = num1 + num2;
-}
-function reSum14() {
-  var num1 = Number(document.getElementById("Num14").value);
-  var num2 = Number(document.getElementById("Num24").value);
-  document.getElementById("Sum14").value = num1 + num2;
-}
-function reSum15() {
-  var num1 = Number(document.getElementById("Num15").value);
-  var num2 = Number(document.getElementById("Num25").value);
-  document.getElementById("Sum15").value = num1 + num2;
-}
-function reSum16() {
-  var num1 = Number(document.getElementById("Sum").value);
+// mbbs_save
+student_home = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_home",
+    data: data,
+  })
+    .then(function (response) {
+      var { cand_id } = response.data;
+      // console.log(cand_id);
+      document.getElementById("add_cand_id").value = cand_id;
+      home_files_only();
+      $("#student_home").removeClass("active");
+      $("#student_qual").addClass("active");
+      $("#add_home").removeClass("show active");
+      $("#add_profilee").addClass("show active");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+student_qual = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_qual",
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      $("#student_qual").removeClass("active");
+      $("#student_bank").addClass("active");
+      $("#add_profilee").removeClass("show active");
+      $("#add_bankk").addClass("show active");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+student_bank = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_bank",
+    data: data,
+  })
+    .then((res) => {
+      console.log(res);
+      bank_files_only();
+      $("#student_bank").removeClass("active");
+      $("#student_docs").addClass("active");
+      $("#add_bankk").removeClass("show active");
+      $("#add_contact").addClass("show active");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
 
-  var num2 = Number(document.getElementById("Sum1").value);
-  var num3 = Number(document.getElementById("Sum12").value);
-  var num4 = Number(document.getElementById("Sum13").value);
-  var num5 = Number(document.getElementById("Sum14").value);
-  var num6 = Number(document.getElementById("Sum15").value);
-  document.getElementById("Sum16").value =
+back_to_pre = (params) => {
+  if (params == "student_home") {
+    $("#student_home").addClass("active");
+    $("#student_qual").removeClass("active");
+    $("#add_home").addClass("show active");
+    $("#add_profilee").removeClass("show active");
+  }
+  if (params == "student_qual") {
+    $("#student_qual").addClass("active");
+    $("#student_bank").removeClass("active");
+    $("#add_profilee").addClass("show active");
+    $("#add_bankk").removeClass("show active");
+  }
+  if (params == "student_bank") {
+    $("#student_bank").addClass("active");
+    $("#student_docs").removeClass("active");
+    $("#add_bankk").addClass("show active");
+    $("#add_contact").removeClass("show active");
+  }
+};
+
+// ------------------------mdms_save------------------------------//
+student_home_ = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_home",
+    data: data,
+  })
+    .then(function (response) {
+      var { cand_id } = response.data;
+
+      document.getElementById("add_cand_id").value = cand_id;
+      home_files_only();
+      $("#student_home").removeClass("active");
+      $("#student_qual").addClass("active");
+      $("#add_home").removeClass("show active");
+      $("#add_profilee").addClass("show active");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+student_qual_ = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_qual",
+    data: data,
+  })
+    .then((res) => {
+      $("#student_qual").removeClass("active");
+      $("#student_bank").addClass("active");
+      $("#add_profilee").removeClass("show active");
+      $("#add_bankk").addClass("show active");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+student_bank_ = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_bank",
+    data: data,
+  })
+    .then((res) => {
+      bank_files_only();
+      $("#student_bank").removeClass("active");
+      $("#student_surety").addClass("active");
+      $("#add_bankk").removeClass("show active");
+      $("#add_surety").addClass("show active");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+student_surety_ = (params) => {
+  var form = document.getElementById(params);
+  let data = new FormData(form);
+  axios({
+    method: "post",
+    url: "/student_surety",
+    data: data,
+  })
+    .then((res) => {
+      surety_files_only();
+      $("#student_surety").removeClass("active");
+      $("#student_docs").addClass("active");
+      $("#add_surety").removeClass("show active");
+      $("#add_contact").addClass("show active");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+back_to_prev = (params) => {
+  if (params == "student_home") {
+    $("#student_home").addClass("active");
+    $("#student_qual").removeClass("active");
+    $("#add_home").addClass("show active");
+    $("#add_profilee").removeClass("show active");
+  }
+  if (params == "student_qual") {
+    $("#student_qual").addClass("active");
+    $("#student_bank").removeClass("active");
+    $("#add_profilee").addClass("show active");
+    $("#add_bankk").removeClass("show active");
+  }
+  if (params == "student_bank") {
+    $("#student_bank").addClass("active");
+    $("#student_surety").removeClass("active");
+    $("#add_bankk").addClass("show active");
+    $("#add_surety").removeClass("show active");
+  }
+  if (params == "student_surety") {
+    $("#student_surety").addClass("active");
+    $("#student_docs").removeClass("active");
+    $("#add_surety").addClass("show active");
+    $("#add_contact").removeClass("show active");
+  }
+};
+
+home_files_only = () => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var aadhar = document.getElementById("bank_files5");
+  var photo = document.getElementById("file");
+  var sign = document.getElementById("file2");
+  var thump = document.getElementById("file1");
+
+  formData.append("aadhar", aadhar.files[0]);
+  formData.append("n_cand_photo", photo.files[0]);
+  formData.append("n_cand_sign", sign.files[0]);
+  formData.append("n_cand_thumb", thump.files[0]);
+  formData.append("cand_id", cand_id);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_home_files", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+    }
+  };
+
+  xhr.send(formData);
+};
+bank_files_only = () => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var passbook = document.getElementById("bank_files1");
+  var challan = document.getElementById("bank_files2");
+  var sq_challan = document.getElementById("bank_files25");
+
+  formData.append("passbook", passbook.files[0]);
+  formData.append("challan", challan.files[0]);
+  formData.append("sq_challan", sq_challan.files[0]);
+  formData.append("cand_id", cand_id);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_bank_files", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+    }
+  };
+
+  xhr.send(formData);
+};
+surety_files_only = () => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+
+  var surety = document.getElementById("files_mdms_surety");
+  formData.append("surety", surety.files[0]);
+  formData.append("cand_id", cand_id);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_surety_files", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+    }
+  };
+
+  xhr.send(formData);
+};
+
+// docs_files_upload
+docs_files_only_1 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  //
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_1", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("hide");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_2 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  //
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_2", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_3 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  //
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_3", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_4 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  //
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_4", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_5 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  //
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_5", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_6 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_6", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_7 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_7", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_8 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_8", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_9 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_9", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_10 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_10", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_11 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_11", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_12 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_12", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_13 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_13", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_14 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_14", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_15 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_15", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_16 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_16", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_17 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_17", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_18 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_18", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_19 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_19", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_20 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_20", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_21 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_21", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_22 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_22", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_23 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_23", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_24 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_24", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_25 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_25", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_26 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_26", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_27 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_27", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_28 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_27", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+docs_files_only_29 = (id, name) => {
+  var cand_id = document.getElementById("add_cand_id").value;
+  var formData = new FormData();
+  var doc = document.getElementById(id);
+  if (doc.files[0]) {
+    $("#loading").modal("show");
+  }
+  formData.append(name, doc.files[0]);
+  formData.append("cand_id", cand_id);
+  formData.append("name", name);
+
+  var xhr;
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhr.open("POST", "/student_docs_files_27", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      data = this.responseText;
+      if (data) {
+        $("#loading").modal("toggle");
+      }
+ setTimeout(function() {
+              var isShown = $('#loading').hasClass('show');
+              if(isShown){
+ 				$("#loading").modal("hide");
+				}
+           }, 2500);
+    }
+  };
+
+  xhr.send(formData);
+};
+
+function reSume111() {
+  var num1 = Number(document.getElementById("add_lang_theory").value);
+  var num2 = Number(document.getElementById("add_lang_practical").value);
+  var num3 = Number(document.getElementById("add_lang_internal").value);
+  document.getElementById("add_lang_total").value = num1 + num2 + num3;
+}
+function reSume211() {
+  var num1 = Number(document.getElementById("add_eng_theory").value);
+  var num2 = Number(document.getElementById("add_eng_practical").value);
+  var num3 = Number(document.getElementById("add_eng_internal").value);
+
+  document.getElementById("add_eng_total").value = num1 + num2 + num3;
+}
+function reSume311() {
+  var num1 = Number(document.getElementById("add_mat_theory").value);
+  var num2 = Number(document.getElementById("add_mat_practical").value);
+  var num3 = Number(document.getElementById("add_mat_internal").value);
+
+  document.getElementById("add_mat_total").value = num1 + num2 + num3;
+}
+function reSume411() {
+  var num1 = Number(document.getElementById("add_phy_theory").value);
+  var num2 = Number(document.getElementById("add_phy_practical").value);
+  var num3 = Number(document.getElementById("add_phy_internal").value);
+
+  document.getElementById("add_phy_total").value = num1 + num2 + num3;
+}
+function reSume511() {
+  var num1 = Number(document.getElementById("add_chem_theory").value);
+  var num2 = Number(document.getElementById("add_chem_practical").value);
+  var num3 = Number(document.getElementById("add_chem_internal").value);
+
+  document.getElementById("add_chem_total").value = num1 + num2 + num3;
+}
+function reSume611() {
+  var num1 = Number(document.getElementById("add_bio_theory").value);
+  var num2 = Number(document.getElementById("add_bio_practical").value);
+  var num3 = Number(document.getElementById("add_bio_internal").value);
+
+  document.getElementById("add_bio_total").value = num1 + num2;
+}
+function reSume20() {
+  var num1 = Number(document.getElementById("add_lang_total").value);
+
+  var num2 = Number(document.getElementById("add_eng_total").value);
+  var num3 = Number(document.getElementById("add_mat_total").value);
+  var num4 = Number(document.getElementById("add_phy_total").value);
+  var num5 = Number(document.getElementById("add_chem_total").value);
+  var num6 = Number(document.getElementById("add_bio_total").value);
+  document.getElementById("add_total_mark1").value =
     num1 + num2 + num3 + num4 + num5 + num6;
 }
 function reSum20() {
@@ -59,6 +1363,17 @@ function reSum19() {
   var num5 = Number(document.getElementById("edit_lang_max").value);
   var num6 = Number(document.getElementById("edit_eng_max").value);
   document.getElementById("edit_max_mark").value =
+    num1 + num2 + num3 + num4 + num5 + num6;
+}
+function reSum191() {
+  var num1 = Number(document.getElementById("add_bio_max").value);
+
+  var num2 = Number(document.getElementById("add_chem_max").value);
+  var num3 = Number(document.getElementById("add_phy_max").value);
+  var num4 = Number(document.getElementById("add_mat_max").value);
+  var num5 = Number(document.getElementById("add_lang_max").value);
+  var num6 = Number(document.getElementById("add_eng_max").value);
+  document.getElementById("add_max_mark").value =
     num1 + num2 + num3 + num4 + num5 + num6;
 }
 function reSum17() {
@@ -86,57 +1401,71 @@ function reSum21() {
 
   document.getElementById("edit_percentage").value = (num1 / num2) * 100;
 }
+function reSum121() {
+  var num1 = Number(document.getElementById("add_total_mark1").value);
+
+  var num2 = Number(document.getElementById("add_max_mark").value);
+
+  document.getElementById("add_percentage").value = (num1 / num2) * 100;
+}
 function reSume1() {
   var num1 = Number(document.getElementById("edit_lang_theory").value);
 
   var num2 = Number(document.getElementById("edit_lang_practical").value);
+  var num3 = Number(document.getElementById("edit_lang_internal").value);
 
-  document.getElementById("edit_lang_total").value = num1 + num2;
+  document.getElementById("edit_lang_total").value = num1 + num2 + num3;
 }
 function reSume2() {
   var num1 = Number(document.getElementById("edit_eng_theory").value);
 
   var num2 = Number(document.getElementById("edit_eng_practical").value);
+  var num3 = Number(document.getElementById("edit_eng_internal").value);
 
-  document.getElementById("edit_eng_total").value = num1 + num2;
+  document.getElementById("edit_eng_total").value = num1 + num2 + num3;
 }
 function reSume3() {
   var num1 = Number(document.getElementById("edit_mat_theory").value);
 
   var num2 = Number(document.getElementById("edit_mat_practical").value);
+  var num3 = Number(document.getElementById("edit_mat_internal").value);
 
-  document.getElementById("edit_mat_total").value = num1 + num2;
+  document.getElementById("edit_mat_total").value = num1 + num2 + num3;
 }
 function reSume3() {
   var num1 = Number(document.getElementById("edit_mat_theory").value);
 
   var num2 = Number(document.getElementById("edit_mat_practical").value);
+  var num3 = Number(document.getElementById("edit_mat_internal").value);
 
-  document.getElementById("edit_mat_total").value = num1 + num2;
+  document.getElementById("edit_mat_total").value = num1 + num2 + num3;
 }
 function reSume4() {
   var num1 = Number(document.getElementById("edit_phy_theory").value);
 
   var num2 = Number(document.getElementById("edit_phy_practical").value);
+  var num3 = Number(document.getElementById("edit_phy_internal").value);
 
-  document.getElementById("edit_phy_total").value = num1 + num2;
+  document.getElementById("edit_phy_total").value = num1 + num2 + num3;
 }
 function reSume5() {
   var num1 = Number(document.getElementById("edit_chem_theory").value);
 
   var num2 = Number(document.getElementById("edit_chem_practical").value);
+  var num3 = Number(document.getElementById("edit_chem_internal").value);
 
-  document.getElementById("edit_chem_total").value = num1 + num2;
+  document.getElementById("edit_chem_total").value = num1 + num2 + num3;
 }
 function reSume6() {
   var num1 = Number(document.getElementById("edit_bio_theory").value);
 
   var num2 = Number(document.getElementById("edit_bio_practical").value);
+  var num3 = Number(document.getElementById("edit_bio_internal").value);
 
-  document.getElementById("edit_bio_total").value = num1 + num2;
+  document.getElementById("edit_bio_total").value = num1 + num2 + num3;
 }
 $(document).ready(function () {
-  $("#exampleModalLong").modal({
+  $("#exampleModalLong ,#loading").modal({
     backdrop: "static",
     keyboard: false,
     show: false,
@@ -150,19 +1479,34 @@ $(document).ready(function () {
   });
 
   //same as present address
-  $("#chkCopy").click(function () {
+   $("#chkCopy").click(function () {
     if ($("#chkCopy").is(":checked")) {
-      $("#nameBill").val($("#nameShip").val());
-      $("#address1Bill").val($("#address1Ship").val());
+      $("#add_pm_district").val($("#add_ps_district").val());
+      $("#add_pm_address").val($("#add_ps_address").val());
 
-      $("#address2Bill").val($("#address2Ship").val());
-      $("#cityBill").val($("#cityShip").val());
+      $("#add_pm_pincode").val($("#add_ps_pincode").val());
+      $("#add_pm_state").val($("#add_ps_state").val());
     } else {
       //Clear on uncheck
-      $("#nameBill").val("");
-      $("#address1Bill").val("");
-      $("#address2Bill").val("");
-      $("#cityBill").val("");
+      $("#add_pm_district").val("");
+      $("#add_pm_address").val("");
+      $("#add_pm_pincode").val("");
+      $("#add_pm_state").val("");
+    }
+  });
+  $("#chkCopyedit").click(function () {
+    if ($("#chkCopyedit").is(":checked")) {
+      $("#edit_pm_district").val($("#edit_ps_district").val());
+      $("#edit_pm_address").val($("#edit_ps_address").val());
+
+      $("#edit_pm_pincode").val($("#edit_ps_pincode").val());
+      $("#edit_pm_state").val($("#edit_ps_state").val());
+    } else {
+      //Clear on uncheck
+      $("#edit_pm_district").val("");
+      $("#edit_pm_editress").val("");
+      $("#edit_pm_pincode").val("");
+      $("#edit_pm_state").val("");
     }
   });
   $(document).on("click", ".edit", function () {
@@ -606,6 +1950,24 @@ $(document).ready(function () {
     var fileName = target[0].files[0].name;
     relatedTarget.val(fileName);
   });
+  $("#bank_files255").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank255");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files2554").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank2554");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files256").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank256");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
   $("#bank_files1").on("change", function () {
     var target = $(this);
     var relatedTarget = target.siblings(".file-name_bank1");
@@ -615,6 +1977,36 @@ $(document).ready(function () {
   $("#bank_files2").on("change", function () {
     var target = $(this);
     var relatedTarget = target.siblings(".file-name_bank2");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files25").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank25");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files223").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank223");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files211").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank211");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files212").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank212");
+    var fileName = target[0].files[0].name;
+    relatedTarget.val(fileName);
+  });
+  $("#bank_files255").on("change", function () {
+    var target = $(this);
+    var relatedTarget = target.siblings(".file-name_bank255");
     var fileName = target[0].files[0].name;
     relatedTarget.val(fileName);
   });

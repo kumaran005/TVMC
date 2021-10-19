@@ -85,20 +85,15 @@ exports.add_user = function (req, res) {
 
     //Mail
 
-    var sql =
-      "Select * from `ems`.`user_details` where `emailid`='" +
-      emailid +
-      "' or password='" +
-      epass +
-      "'";
+    var sql = `Select * from admintv_ems.user_details where emailid='${emailid}'`;
     var query = db.query(sql, function (err, data, message1) {
       // console.log(data);
       if (data.length) {
-        var sql = `SELECT * FROM ems.state_details`;
+        var sql = `SELECT * FROM admintv_ems.state_details`;
         db.query(sql, function (err, data10) {
-          var sql = `SELECT * FROM ems.admiss_quota`;
+          var sql = `SELECT * FROM admintv_ems.admiss_quota`;
           db.query(sql, function (err, data7) {
-            var sql = `SELECT * FROM ems.community_details`;
+            var sql = `SELECT * FROM admintv_ems.community_details`;
             db.query(sql, function (err, data6) {
               message = "Emailid/Password already exists.Please Check!";
               res.render("signupnew.ejs", {
@@ -112,7 +107,7 @@ exports.add_user = function (req, res) {
         });
       } else {
         sql =
-          "INSERT INTO `ems`.`user_details`(`user_id`,`name`,`emailid`,`user_type`,`is_active`,`created_time`,`user_name`,`password`,`salt`,`course`,`admission_quota`, `relation`, `community`, `address`, `city`, `state`, `pin`,`last_modified_time`) VALUES ('" +
+          "INSERT INTO `admintv_ems`.`user_details`(`user_id`,`name`,`emailid`,`user_type`,`is_active`,`created_time`,`user_name`,`password`,`salt`,`course`,`admission_quota`, `relation`, `community`, `address`, `city`, `state`, `pin`,`last_modified_time`) VALUES ('" +
           userid +
           "','" +
           name +
@@ -150,11 +145,11 @@ exports.add_user = function (req, res) {
           last_modified_time +
           "')";
         query = db.query(sql, function (err, data) {
-          var sql = `SELECT * FROM ems.state_details`;
+          var sql = `SELECT * FROM admintv_ems.state_details`;
           db.query(sql, function (err, data10) {
-            var sql = `SELECT * FROM ems.admiss_quota`;
+            var sql = `SELECT * FROM admintv_ems.admiss_quota`;
             db.query(sql, function (err, data7) {
-              var sql = `SELECT * FROM ems.community_details`;
+              var sql = `SELECT * FROM admintv_ems.community_details`;
               db.query(sql, function (err, data6) {
                 message = "Login details send to your Email.!";
                 res.render("signupnew.ejs", {
@@ -171,11 +166,11 @@ exports.add_user = function (req, res) {
       }
     });
   } else {
-    var sql = `SELECT * FROM ems.state_details`;
+    var sql = `SELECT * FROM admintv_ems.state_details`;
     db.query(sql, function (err, data10) {
-      var sql = `SELECT * FROM ems.admiss_quota`;
+      var sql = `SELECT * FROM admintv_ems.admiss_quota`;
       db.query(sql, function (err, data7) {
-        var sql = `SELECT * FROM ems.community_details`;
+        var sql = `SELECT * FROM admintv_ems.community_details`;
         db.query(sql, function (err, data6) {
           res.render("signupnew.ejs", {
             userData10: data10,
@@ -218,7 +213,7 @@ exports.login = function (req, res) {
     console.log("d:" + decrypted);
 
     var sql =
-      "SELECT * FROM `ems`.`user_details` WHERE `user_name`='" +
+      "SELECT * FROM `admintv_ems`.`user_details` WHERE `user_name`='" +
       username +
       "' and password = '" +
       epass +
@@ -226,35 +221,35 @@ exports.login = function (req, res) {
     db.query(sql, function (err, results) {
       if (results.length) {
         if (results[0].user_type == "Admin") {
-          req.session.user = results[0];
+          //req.session.user = results[0];
           message = "Welcome!";
           res.render("ic_board_admin.ejs", {
             message: message,
-            user: req.session.user,
+            user: results[0],
           });
         } else if (results[0].user_type == "Assistant") {
-          req.session.user = results[0];
+          //req.session.user = results[0];
 
           message = "Welcome!";
           res.render("ic_board_assistant.ejs", {
             message: message,
-            user: req.session.user,
+            user: results[0],
           });
         } else if (results[0].user_type == "Student") {
-          req.session.user = results[0];
+          //req.session.user = results[0];
 
           message = "Welcome!";
           res.render("table.ejs", {
             message: message,
-            user: req.session.user,
+            user: results[0],
           });
         } else if (results[0].user_type == "Public") {
-          req.session.user = results[0];
+          //req.session.user = results[0];
           message = "Welcome!";
           res.render("ic_board_student.ejs", {
             message: message,
             course_title: results[0].course,
-            user: req.session.user,
+            user: results[0],
           });
         } else {
           message = "Incorrect! Username or Password";
@@ -290,7 +285,7 @@ exports.changepswd = (req, res) => {
   );
   var crypted = c.update(newpass, "utf8", "hex") + c.final("hex");
   var e_new_pass = crypted.toUpperCase();
-  var sql = `update ems.user_details set password = '${e_new_pass}' where user_name = '${user.user_name}'`;
+  var sql = `update admintv_ems.user_details set password = '${e_new_pass}' where user_name = '${user.user_name}'`;
   db.query(sql, () => {
     res.render("password.ejs", {
       user: user,
@@ -358,58 +353,38 @@ exports.all_boards = (req, res) => {
         : null
       : null;
 
-    var sql = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+    var sql = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
                           where (course_title,submitted,active_status) = ('${course}','Yes','Yes') order by student_code`;
     db.query(sql, function (err, data31) {
-      var sql = `SELECT * FROM ems.check_slip_status`;
+      var sql = `SELECT * FROM admintv_ems.check_slip_status`;
       db.query(sql, function (err, data30) {
-        var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-  ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-   where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','${course}')`;
+        var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+  admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+   where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','${course}')`;
         db.query(sql, function (err, data27) {
-          var sql = `SELECT * FROM ems.state_details`;
+          var sql = `SELECT * FROM admintv_ems.state_details`;
           db.query(sql, function (err, data10) {
-            var sql = `SELECT * FROM ems.admiss_type`;
+            var sql = `SELECT * FROM admintv_ems.admiss_type`;
             db.query(sql, function (err, data8) {
-              var sql = `SELECT * FROM ems.admiss_quota`;
+              var sql = `SELECT * FROM admintv_ems.admiss_quota`;
               db.query(sql, function (err, data7) {
-                var sql = `SELECT * FROM ems.community_details`;
+                var sql = `SELECT * FROM admintv_ems.community_details`;
                 db.query(sql, function (err, data6) {
-                  var sql = `SELECT * FROM ems.nation_details`;
+                  var sql = `SELECT * FROM admintv_ems.nation_details`;
                   db.query(sql, function (err, data5) {
-                    var sql = `SELECT * FROM ems.religion_details`;
+                    var sql = `SELECT * FROM admintv_ems.religion_details`;
                     db.query(sql, function (err, data4) {
-                      var sql = `SELECT * FROM ems.no_delete`;
+                      var sql = `SELECT * FROM admintv_ems.no_delete`;
                       db.query(sql, function (err, data3) {
-                        if (
-                          user_details.user_type == "Assistant" ||
-                          user_details.user_type == "Admin"
-                        ) {
-                          var sql1 = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+                        var sql = `select * from admintv_ems.board`;
+                        db.query(sql, function (err, data28) {
+                          if (
+                            user_details.user_type == "Assistant" ||
+                            user_details.user_type == "Admin"
+                          ) {
+                            var sql1 = `SELECT *, DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
                           where (course_title,submitted,active_status,relieved) = ('${course}','Yes','Yes','No') order by student_code`;
-                          db.query(sql1, function (err, data) {
-                            res.render(page, {
-                              message: message,
-                              userData: data,
-                              userData3: data3,
-                              userData4: data4,
-                              userData5: data5,
-                              userData6: data6,
-                              userData7: data7,
-                              userData8: data8,
-                              userData10: data10,
-                              userData27: data27,
-                              userData30: data30,
-                              userData31: data31,
-                              user: user_details,
-                            });
-                          });
-                        } else if (user_details.user_type == "Public") {
-                          var sql = `select cand_id from ems.user_details where user_name = '${user_details.user_name}' and password = '${user_details.password}'`;
-                          db.query(sql, (err, cand_id) => {
-                            var sql_1 = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
-                          where (course_title,active_status,relieved ,ems.cand_admission_details.cand_id) = ('${course}','Yes','No','${cand_id[0].cand_id}')`;
-                            db.query(sql_1, function (err, data) {
+                            db.query(sql1, function (err, data) {
                               res.render(page, {
                                 message: message,
                                 userData: data,
@@ -422,14 +397,42 @@ exports.all_boards = (req, res) => {
                                 userData10: data10,
                                 userData27: data27,
                                 userData30: data30,
+                                userData31: data31,
+                                userData28: data28,
                                 user: user_details,
-                                cand_id: cand_id,
                               });
                             });
-                          });
-                        } else {
-                          res.render("index.ejs", { message: message });
-                        }
+                          } else if (user_details.user_type == "Public") {
+                            var sql = `select cand_id from admintv_ems.user_details where user_name = '${user_details.user_name}' and password = '${user_details.password}'`;
+                            db.query(sql, (err, cand_id) => {if(err)res.send(error);
+                             
+                              var sql_1 = `SELECT *,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
+                          where (course_title,active_status,relieved ,admintv_ems.cand_admission_details.cand_id) = ('${course}','Yes','No','${cand_id[0].cand_id}')`;
+                              db.query(sql_1, function (err, data) {
+									
+                                res.render(page, {
+								 
+                                  message: message,
+                                  userData: data,
+                                  userData3: data3,
+                                  userData4: data4,
+                                  userData5: data5,
+                                  userData6: data6,
+                                  userData7: data7,
+                                  userData8: data8,
+                                  userData10: data10,
+                                  userData27: data27,
+                                  userData28: data28,
+                                  userData30: data30,
+                                  user: user_details,
+                                  cand_id: cand_id,
+                                });
+                              });
+                            });
+                          } else {
+                            res.render("index.ejs", { message: message });
+                          }
+                        });
                       });
                     });
                   });
@@ -451,27 +454,27 @@ exports.all_boards = (req, res) => {
 //   var userId = req.session.userId;
 //   var post = req.body;
 //   var cand_id = post.cand_id;
-//   var sql = `select * from ems.check_slip_status`;
+//   var sql = `select * from admintv_ems.check_slip_status`;
 //   db.query(sql, function (err, data30) {
-//     var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-//   ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-//    where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','MDMS')`;
+//     var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+//   admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+//    where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','MDMS')`;
 //     db.query(sql, function (err, data27) {
-//       var sql = `SELECT * FROM ems.state_details`;
+//       var sql = `SELECT * FROM admintv_ems.state_details`;
 //       db.query(sql, function (err, data10) {
-//         var sql = `SELECT * FROM ems.admiss_type`;
+//         var sql = `SELECT * FROM admintv_ems.admiss_type`;
 //         db.query(sql, function (err, data8) {
-//           var sql = `SELECT * FROM ems.admiss_quota`;
+//           var sql = `SELECT * FROM admintv_ems.admiss_quota`;
 //           db.query(sql, function (err, data7) {
-//             var sql = `SELECT * FROM ems.community_details`;
+//             var sql = `SELECT * FROM admintv_ems.community_details`;
 //             db.query(sql, function (err, data6) {
-//               var sql = `SELECT * FROM ems.nation_details`;
+//               var sql = `SELECT * FROM admintv_ems.nation_details`;
 //               db.query(sql, function (err, data5) {
-//                 var sql = `SELECT * FROM ems.religion_details`;
+//                 var sql = `SELECT * FROM admintv_ems.religion_details`;
 //                 db.query(sql, function (err, data4) {
-//                   var sql = `SELECT * FROM ems.no_delete`;
+//                   var sql = `SELECT * FROM admintv_ems.no_delete`;
 //                   db.query(sql, function (err, data3) {
-//                     var sql = `SELECT * FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+//                     var sql = `SELECT * FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
 //                       where (course_title,active_status,relieved) = ('MDMS','Yes','No') order by student_code`;
 //                     db.query(sql, function (err, data) {
 //                       res.render("mdms_viewstudent.ejs", {
@@ -503,27 +506,27 @@ exports.all_boards = (req, res) => {
 // exports.bsc_board = (req, res) => {
 //   var message = "";
 //   // var userId = req.session.userId;
-//   var sql = `SELECT * FROM ems.check_slip_status`;
+//   var sql = `SELECT * FROM admintv_ems.check_slip_status`;
 //   db.query(sql, function (err, data30) {
-//     var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-//   ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-//    where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','BSC')`;
+//     var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+//   admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+//    where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','BSC')`;
 //     db.query(sql, function (err, data27) {
-//       var sql = `SELECT * FROM ems.state_details`;
+//       var sql = `SELECT * FROM admintv_ems.state_details`;
 //       db.query(sql, function (err, data10) {
-//         var sql = `SELECT * FROM ems.admiss_type`;
+//         var sql = `SELECT * FROM admintv_ems.admiss_type`;
 //         db.query(sql, function (err, data8) {
-//           var sql = `SELECT * FROM ems.admiss_quota`;
+//           var sql = `SELECT * FROM admintv_ems.admiss_quota`;
 //           db.query(sql, function (err, data7) {
-//             var sql = `SELECT * FROM ems.community_details`;
+//             var sql = `SELECT * FROM admintv_ems.community_details`;
 //             db.query(sql, function (err, data6) {
-//               var sql = `SELECT * FROM ems.nation_details`;
+//               var sql = `SELECT * FROM admintv_ems.nation_details`;
 //               db.query(sql, function (err, data5) {
-//                 var sql = `SELECT * FROM ems.religion_details`;
+//                 var sql = `SELECT * FROM admintv_ems.religion_details`;
 //                 db.query(sql, function (err, data4) {
-//                   var sql = `SELECT * FROM ems.no_delete`;
+//                   var sql = `SELECT * FROM admintv_ems.no_delete`;
 //                   db.query(sql, function (err, data3) {
-//                     var sql = `SELECT * FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+//                     var sql = `SELECT * FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
 //                       where (course_title,active_status,relieved) = ('BSC','Yes','No') order by student_code`;
 //                     db.query(sql, function (err, data) {
 //                       res.render("bsc_viewstudent.ejs", {
@@ -558,27 +561,27 @@ exports.all_boards = (req, res) => {
 //   var userId = req.session.userId;
 //   var post = req.body;
 //   var cand_id = post.cand_id;
-//   var sql = `select * from ems.check_slip_status`;
+//   var sql = `select * from admintv_ems.check_slip_status`;
 //   db.query(sql, function (err, data30) {
-//     var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-//   ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-//    where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','MDMS')`;
+//     var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+//   admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+//    where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','MDMS')`;
 //     db.query(sql, function (err, data27) {
-//       var sql = `SELECT * FROM ems.state_details`;
+//       var sql = `SELECT * FROM admintv_ems.state_details`;
 //       db.query(sql, function (err, data10) {
-//         var sql = `SELECT * FROM ems.admiss_type`;
+//         var sql = `SELECT * FROM admintv_ems.admiss_type`;
 //         db.query(sql, function (err, data8) {
-//           var sql = `SELECT * FROM ems.admiss_quota`;
+//           var sql = `SELECT * FROM admintv_ems.admiss_quota`;
 //           db.query(sql, function (err, data7) {
-//             var sql = `SELECT * FROM ems.community_details`;
+//             var sql = `SELECT * FROM admintv_ems.community_details`;
 //             db.query(sql, function (err, data6) {
-//               var sql = `SELECT * FROM ems.nation_details`;
+//               var sql = `SELECT * FROM admintv_ems.nation_details`;
 //               db.query(sql, function (err, data5) {
-//                 var sql = `SELECT * FROM ems.religion_details`;
+//                 var sql = `SELECT * FROM admintv_ems.religion_details`;
 //                 db.query(sql, function (err, data4) {
-//                   var sql = `SELECT * FROM ems.no_delete`;
+//                   var sql = `SELECT * FROM admintv_ems.no_delete`;
 //                   db.query(sql, function (err, data3) {
-//                     var sql = `SELECT *, DATE_FORMAT(date_of_admission, '%d-%m-%Y') date_of_admission FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+//                     var sql = `SELECT *, DATE_FORMAT(date_of_admission, '%d-%m-%Y') date_of_admission FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
 //                       where (course_title,active_status,relieved) = ('AISSC','Yes','No') order by student_code`;
 //                     db.query(sql, function (err, data) {
 //                       res.render("aissc_viewstudent.ejs", {
@@ -609,27 +612,27 @@ exports.all_boards = (req, res) => {
 // exports.nursing_board = (req, res) => {
 //   var message = "";
 //   // var userId = req.session.userId;
-//   var sql = `SELECT * FROM ems.check_slip_status`;
+//   var sql = `SELECT * FROM admintv_ems.check_slip_status`;
 //   db.query(sql, function (err, data30) {
-//     var sql = `SELECT * FROM ems.cand_admission_details INNER JOIN
-//   ems.cand_relieving_details ON ems.cand_admission_details.cand_id= ems.cand_relieving_details.cand_id
-//    where (ems.cand_relieving_details.relieved,ems.cand_admission_details.active_status,ems.cand_admission_details.course_title)= ('Yes','Yes','DIPLOMA IN NURSING')`;
+//     var sql = `SELECT * FROM admintv_ems.cand_admission_details INNER JOIN
+//   admintv_ems.cand_relieving_details ON admintv_ems.cand_admission_details.cand_id= admintv_ems.cand_relieving_details.cand_id
+//    where (admintv_ems.cand_relieving_details.relieved,admintv_ems.cand_admission_details.active_status,admintv_ems.cand_admission_details.course_title)= ('Yes','Yes','DIPLOMA IN NURSING')`;
 //     db.query(sql, function (err, data27) {
-//       var sql = `SELECT * FROM ems.state_details`;
+//       var sql = `SELECT * FROM admintv_ems.state_details`;
 //       db.query(sql, function (err, data10) {
-//         var sql = `SELECT * FROM ems.admiss_type`;
+//         var sql = `SELECT * FROM admintv_ems.admiss_type`;
 //         db.query(sql, function (err, data8) {
-//           var sql = `SELECT * FROM ems.admiss_quota`;
+//           var sql = `SELECT * FROM admintv_ems.admiss_quota`;
 //           db.query(sql, function (err, data7) {
-//             var sql = `SELECT * FROM ems.community_details`;
+//             var sql = `SELECT * FROM admintv_ems.community_details`;
 //             db.query(sql, function (err, data6) {
-//               var sql = `SELECT * FROM ems.nation_details`;
+//               var sql = `SELECT * FROM admintv_ems.nation_details`;
 //               db.query(sql, function (err, data5) {
-//                 var sql = `SELECT * FROM ems.religion_details`;
+//                 var sql = `SELECT * FROM admintv_ems.religion_details`;
 //                 db.query(sql, function (err, data4) {
-//                   var sql = `SELECT * FROM ems.no_delete`;
+//                   var sql = `SELECT * FROM admintv_ems.no_delete`;
 //                   db.query(sql, function (err, data3) {
-//                     var sql = `SELECT * FROM ems.cand_relieving_details inner join ems.cand_admission_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+//                     var sql = `SELECT * FROM admintv_ems.cand_relieving_details inner join admintv_ems.cand_admission_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
 //                       where (course_title,active_status,relieved) = ('DIPLOMA IN NURSING','Yes','No') order by student_code`;
 //                     db.query(sql, function (err, data) {
 //                       res.render("nursing_viewstudent.ejs", {
@@ -666,13 +669,13 @@ exports.icboard = function (req, res, next) {
 exports.ack = (req, res) => {
   var user_details = JSON.parse(req.body.user_details);
   if (req.method == "POST") {
-    var sql = `select cand_id,course from ems.user_details where user_name = '${user_details.user_name}' and password = '${user_details.password}'`;
+    var sql = `select cand_id,course from admintv_ems.user_details where user_name = '${user_details.user_name}' and password = '${user_details.password}'`;
     db.query(sql, (err, cand_id) => {
-      var sql_1 = `SELECT ems.cand_admission_details.cand_id,cand_name,course,name_of_bank,amount_paid,transaction_id,mobile_phone,submit_date FROM ems.cand_admission_details
-      inner join ems.cand_relieving_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
-      inner join ems.cand_bank_details on ems.cand_admission_details.cand_id = ems.cand_bank_details.cand_id
-      inner join ems.cand_contact_details on ems.cand_admission_details.cand_id = ems.cand_contact_details.cand_id
-      where (course_title,active_status,relieved ,ems.cand_admission_details.cand_id) = ('${cand_id[0].course}','Yes','No','${cand_id[0].cand_id}')`;
+      var sql_1 = `SELECT admintv_ems.cand_admission_details.cand_id,cand_name,course,name_of_bank,amount_paid,transaction_id,mobile_phone,submit_date FROM admintv_ems.cand_admission_details
+      inner join admintv_ems.cand_relieving_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
+      inner join admintv_ems.cand_bank_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_bank_details.cand_id
+      inner join admintv_ems.cand_contact_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_contact_details.cand_id
+      where (course_title,active_status,relieved ,admintv_ems.cand_admission_details.cand_id) = ('${cand_id[0].course}','Yes','No','${cand_id[0].cand_id}')`;
 
       db.query(sql_1, function (err, data) {
         res.render("receipt.ejs", { userData: data });
@@ -707,7 +710,7 @@ exports.forgetpasssword = (req, res) => {
   var emailid = req.body.emailid;
 
   if (user_name) {
-    var sql = `select * from ems.user_details where user_name = '${user_name.toUpperCase()}'`;
+    var sql = `select * from admintv_ems.user_details where user_name = '${user_name.toUpperCase()}'`;
     db.query(sql, (err, data) => {
       if (data[0]) {
         mail.pwdrecover(req, res, data);
@@ -721,7 +724,7 @@ exports.forgetpasssword = (req, res) => {
       }
     });
   } else if (emailid) {
-    var sql = `select * from ems.user_details where emailid = '${emailid}'`;
+    var sql = `select * from admintv_ems.user_details where emailid = '${emailid}'`;
     db.query(sql, (err, data) => {
       if (data[0]) {
         mail.pwdrecover(req, res, data);

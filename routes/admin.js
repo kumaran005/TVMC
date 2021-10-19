@@ -1,9 +1,9 @@
 exports.random_report = (req, res) => {
-  var sql = `select distinct academic_year from ems.cand_profile_details where academic_year != ''`;
+  var sql = `select distinct academic_year from admintv_ems.cand_profile_details where academic_year != ''`;
   db.query(sql, (err, academic_year) => {
-    var sql = `select distinct course from ems.cand_admission_details`;
+    var sql = `select distinct course from admintv_ems.cand_admission_details`;
     db.query(sql, (err, course) => {
-      var sql = `SELECT * FROM ems.community_details`;
+      var sql = `SELECT * FROM admintv_ems.community_details`;
       db.query(sql, function (err, data6) {
         res.render("report.ejs", {
           message: "",
@@ -43,22 +43,24 @@ exports.random_reports = (req, res) => {
     columns_.push(`${columns[i]} as column_${Number(i) + 1}`);
   }
 
-  // left join ems.certificate_details on ems.cand_admission_details.cand_id = ems.certificate_details.cand_id
-  var sql = `SELECT ${columns_.join(",")} FROM ems.cand_admission_details
-            left join ems.cand_academic_mdms on ems.cand_admission_details.cand_id = ems.cand_academic_mdms.cand_id
-            left join ems.cand_academic_mdms_1 on ems.cand_admission_details.cand_id = ems.cand_academic_mdms_1.cand_id
-            left join ems.cand_academic_mdms_2 on ems.cand_admission_details.cand_id = ems.cand_academic_mdms_2.cand_id
-            left join ems.cand_address_details on ems.cand_admission_details.cand_id = ems.cand_address_details.cand_id
-            left join ems.cand_bank_details on ems.cand_admission_details.cand_id = ems.cand_bank_details.cand_id
-            left join ems.cand_contact_details on ems.cand_admission_details.cand_id = ems.cand_contact_details.cand_id
-            left join ems.cand_institute_details on ems.cand_admission_details.cand_id = ems.cand_institute_details.cand_id
-            left join ems.cand_institute_details_mdms on ems.cand_admission_details.cand_id = ems.cand_institute_details_mdms.cand_id
-            left join ems.cand_marks_details on ems.cand_admission_details.cand_id = ems.cand_marks_details.cand_id
-            left join ems.cand_neet_mark_details on ems.cand_admission_details.cand_id = ems.cand_neet_mark_details.cand_id
-            left join ems.cand_neet_marks_mdms on ems.cand_admission_details.cand_id = ems.cand_neet_marks_mdms.cand_id
-            left join ems.cand_profile_details on ems.cand_admission_details.cand_id = ems.cand_profile_details.cand_id
-            left join ems.cand_relieving_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
-            left join ems.cand_surety_details on ems.cand_admission_details.cand_id = ems.cand_surety_details.cand_id
+  // left join admintv_ems.certificate_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.certificate_details.cand_id
+  var sql = `SELECT ${columns_.join(
+    ","
+  )} FROM admintv_ems.cand_admission_details
+            left join admintv_ems.cand_academic_mdms on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_academic_mdms.cand_id
+            left join admintv_ems.cand_academic_mdms_1 on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_academic_mdms_1.cand_id
+            left join admintv_ems.cand_academic_mdms_2 on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_academic_mdms_2.cand_id
+            left join admintv_ems.cand_address_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_address_details.cand_id
+            left join admintv_ems.cand_bank_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_bank_details.cand_id
+            left join admintv_ems.cand_contact_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_contact_details.cand_id
+            left join admintv_ems.cand_institute_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_institute_details.cand_id
+            left join admintv_ems.cand_institute_details_mdms on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_institute_details_mdms.cand_id
+            left join admintv_ems.cand_marks_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_marks_details.cand_id
+            left join admintv_ems.cand_neet_mark_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_neet_mark_details.cand_id
+            left join admintv_ems.cand_neet_marks_mdms on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_neet_marks_mdms.cand_id
+            left join admintv_ems.cand_profile_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_profile_details.cand_id
+            left join admintv_ems.cand_relieving_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
+            left join admintv_ems.cand_surety_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_surety_details.cand_id
 
             where course in ('${course.join(
               "','"
@@ -117,11 +119,11 @@ exports.report_print = (req, res) => {
 };
 
 exports.approve_page = (req, res) => {
-  var sql = `select distinct academic_year from ems.cand_profile_details where academic_year != ''`;
+  var sql = `select distinct academic_year from admintv_ems.cand_profile_details where academic_year != ''`;
   db.query(sql, (err, academic_year) => {
-    var sql = `select distinct course from ems.cand_admission_details`;
+    var sql = `select distinct course from admintv_ems.cand_admission_details`;
     db.query(sql, (err, course) => {
-      var sql = `SELECT * FROM ems.community_details`;
+      var sql = `SELECT * FROM admintv_ems.community_details`;
       db.query(sql, function (err, data6) {
         res.render("approve.ejs", {
           message: "",
@@ -149,10 +151,10 @@ exports.approve_search = (req, res) => {
   var course = data.course;
   var academic_year = data.academic_year;
 
-  var sql = `select ems.cand_admission_details.cand_id ,
-  cand_name ,reg_no ,admission_type ,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission from ems.cand_admission_details
-   left join ems.cand_profile_details on ems.cand_admission_details.cand_id = ems.cand_profile_details.cand_id
-   left join ems.cand_relieving_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+  var sql = `select admintv_ems.cand_admission_details.cand_id ,
+  cand_name ,reg_no ,admission_type ,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission from admintv_ems.cand_admission_details
+   left join admintv_ems.cand_profile_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_profile_details.cand_id
+   left join admintv_ems.cand_relieving_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
    where course in ('${course.join(
      "','"
    )}') and academic_year in ('${academic_year.join(
@@ -170,7 +172,7 @@ exports.approved = (req, res) => {
   var cand_id = JSON.parse(req.body.data);
 
   // console.log(cand_id.join("','"));
-  var sql = `update ems.cand_admission_details set approved = 'Yes' where cand_id in ('${cand_id.join(
+  var sql = `update admintv_ems.cand_admission_details set approved = 'Yes' where cand_id in ('${cand_id.join(
     "','"
   )}')`;
   db.query(sql, (err, data) => {
@@ -194,10 +196,10 @@ exports.approve_filter = (req, res) => {
     null;
   }
 
-  var sql = `select ems.cand_admission_details.cand_id ,
-  cand_name ,reg_no ,admission_type ,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission from ems.cand_admission_details
-   left join ems.cand_profile_details on ems.cand_admission_details.cand_id = ems.cand_profile_details.cand_id
-   left join ems.cand_relieving_details on ems.cand_admission_details.cand_id = ems.cand_relieving_details.cand_id
+  var sql = `select admintv_ems.cand_admission_details.cand_id ,
+  cand_name ,reg_no ,admission_type ,DATE_FORMAT(date_of_admission, '%d/%m/%Y') date_of_admission from admintv_ems.cand_admission_details
+   left join admintv_ems.cand_profile_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_profile_details.cand_id
+   left join admintv_ems.cand_relieving_details on admintv_ems.cand_admission_details.cand_id = admintv_ems.cand_relieving_details.cand_id
    where verified = '${verified}' and approved = '${approved}' and relieved = 'No' order by cand_name`;
   // console.log(sql);
   db.query(sql, (err, data) => {
