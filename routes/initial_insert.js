@@ -8,8 +8,8 @@ exports.student_home = (req, res) => {
   var submitted = post.action;
 
   var name = post.full_name;
-  var hepatitis = post.hepatitis;
-  var covid = post.covid;
+  var hepatitis = post.hepatitis == "undefined" ? "No" : post.hepatitis;
+  var covid = post.covid == "undefined" ? "No" : post.covid;
   // profile tab
   var initial = post.initial;
   var initial_expansion = post.initial_expansion;
